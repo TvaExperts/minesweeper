@@ -1,3 +1,9 @@
-import './sass/index.scss';
+import './index.scss';
+import MinesweeperApp from './js/MinesweeperApp';
 
-console.log('Что за чудесное задание!');
+let minesweeperApp;
+
+document.addEventListener('DOMContentLoaded', () => {
+  minesweeperApp = new MinesweeperApp(null);
+  console.log(minesweeperApp);
+});
