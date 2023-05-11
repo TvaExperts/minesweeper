@@ -31,4 +31,16 @@ const CELL_STATE = {
   OPENED: 'opened',
 };
 
-export { DIFFICULTIES, CELL_STATE };
+const GAME_STATE = {
+  WAITING_START: 'waitingStart',
+  ACTIVE: 'active',
+  GAME_OVER: 'gameOver',
+};
+
+const APP_THEME = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};
+
+// eslint-disable-next-line object-curly-newline
+export { DIFFICULTIES, CELL_STATE, GAME_STATE, APP_THEME };
