@@ -25,12 +25,6 @@ const DIFFICULTIES = {
   },
 };
 
-const CELL_STATE = {
-  HIDDEN: 'hidden',
-  MARKED: 'marked',
-  OPENED: 'opened',
-};
-
 const GAME_STATE = {
   WAITING_START: 'waitingStart',
   ACTIVE: 'active',
@@ -43,4 +37,4 @@ const APP_THEME = {
 };
 
 // eslint-disable-next-line object-curly-newline
-export { DIFFICULTIES, CELL_STATE, GAME_STATE, APP_THEME };
+export { DIFFICULTIES, GAME_STATE, APP_THEME };

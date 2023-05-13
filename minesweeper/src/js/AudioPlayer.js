@@ -1,7 +1,13 @@
 class AudioPlayer {
-  constructor(initState) {
-    this.state = initState;
+  constructor() {
+    this.loopTrack = new Audio('./assets/sounds/loop.mp3');
   }
+
+  playLoop = () => {
+    if (this.loopTrack.loop) return;
+    this.loopTrack.loop = true;
+    this.loopTrack.play();
+  };
 }
 
 export default AudioPlayer;

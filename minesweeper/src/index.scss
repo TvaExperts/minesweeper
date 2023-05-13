@@ -1,15 +1,4 @@
-@import './sass/base.scss';
-@import './sass/layouts.scss';
-@import './sass/header.scss';
-
-.canvas {
-  display: block;
-  margin: 40px auto;
-  border: 1px dotted gray;
-}
-
-.btn-test1,
-.btn-test2 {
-  width: 100px;
-  height: 100px;
-}
+@import './sass/base';
+@import './sass/layouts';
+@import './sass/header';
+@import './sass/main';

@@ -4,18 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="../assets/svg/favicon.svg" />
     <title>Minesweeper RSS</title>
   </head>
   <body>
     <header class="header">
       <div class="wrapper header__container">
         <h1 class="header__item">Minesweeper RSS</h1>
-        <div class="header__item">Configs</div>
+        <div class="header__timer">0</div>
       </div>
     </header>
     <main class="main">
       <div class="wrapper">
         <canvas class="canvas"></canvas>
+        <div class="configs">
+          <label for="tentacles">Number of mines (10-100):</label>
+          <input class="mines" value="40" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+          <label for="tentacles">Rows (10-50):</label>
+          <input class="rows" value="20" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+          <label for="tentacles">Colums (10-50):</label>
+          <input class="columns" value="20" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+          <button class="button-new-game">New Game</button>
+        </div>
       </div>
     </main>
   </body>
