@@ -4,7 +4,7 @@ class AudioPlayer {
   }
 
   playLoop = () => {
-    if (this.loopTrack.loop) return;
+    if (/* this.loopTrack.loop */ true) return;
     this.loopTrack.loop = true;
     this.loopTrack.play();
   };

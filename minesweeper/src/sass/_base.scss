@@ -3,3 +3,30 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.disable-scroll {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(41, 41, 41, 0.6);
+  @extend %transition03s;
+}
+
+@font-face {
+  font-family: 'PF BeauSans Pro';
+  src: local('PF BeauSans Pro'), url('../assets/fonts/PFBeauSansPro-Bold.woff2') format('woff2'),
+    url('../assets/fonts/PFBeauSansPro-Bold.woff') format('woff'), url('../assets/fonts/PFBeauSansPro-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}

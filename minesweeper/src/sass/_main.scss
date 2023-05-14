@@ -1,4 +1,81 @@
+.minesweeper-app {
+  padding: 10px;
+  background-color: #91181d;
+  border-radius: 24px;
+}
+
+.minesweeper-app__container {
+  padding: 16px;
+  background: linear-gradient(180deg, #fdb96a 0%, #ff8a00 53.44%, #febca0 100%);
+  border-radius: 23px;
+}
+
+.minesweeper-app__container-two {
+  padding: 30px;
+  background: #fffad0;
+  border: 3px solid #f4a086;
+  border-radius: 20px;
+}
+
+.minesweeper-app__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  font-family: 'PF BeauSans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 43px;
+  text-transform: uppercase;
+
+  color: #000000;
+}
+
+.minesweeper-app__volume {
+  background-image: url('../assets/svg/volume.svg');
+  width: 80px;
+  height: 80px;
+}
+
+.minesweeper-app__statistics {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 76px;
+}
+
+.minesweeper-app__mines-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 18px;
+  width: 105px;
+}
+
+.minesweeper-app__mines-left-flag {
+  background-image: url('../assets/svg/grid/flag.svg');
+  width: 40px;
+  height: 45px;
+}
+
+.minesweeper-app__game-time {
+  display: flex;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.minesweeper-app__game-time-clock {
+  display: block;
+  background-image: url('../assets/svg/clock.svg');
+  width: 48px;
+  height: 52px;
+}
+.minesweeper-app__configs {
+  background-image: url('../assets/svg/configs.svg');
+  width: 80px;
+  height: 80px;
+}
 .canvas {
   display: block;
-  margin: 40px auto;
 }
