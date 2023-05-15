@@ -28,6 +28,7 @@
                 <div class="minesweeper-app__configs"></div>
               </div>
               <canvas class="canvas"></canvas>
+              <canvas class="canvas2" width="150" height="150"></canvas>
             </div>
           </div>
         </div>
@@ -40,6 +41,40 @@
           <label for="tentacles">Colums (10-50):</label>
           <input class="columns" value="10" type="number" id="tentacles" name="tentacles" min="10" max="100" />
           <button class="button-new-game">New Game</button>
+        </div>
+        <div  class="svg-grid">
+          <img src="../assets/svg/grid/Color=Brown, Shade=Dark, Stroke=No, Theme=Dark.svg" class="svg1"></img>
+          <img src="../assets/svg/grid/Color=Brown, Shade=Light, Stroke=No, Theme=Dark.svg" class="svg1"></img>
+          <img src="../assets/svg/grid/Color=Green, Shade=Dark, Stroke=No, Theme=Dark.svg" class="svg1"></img>
+          <img src="../assets/svg/grid/Color=Green, Shade=Light, Stroke=No, Theme=Dark.svg" class="svg1"></img>
+
+          <div class="svg5"></div>
+        </div>
+      </div>
+      <div class="overlay">
+        <div class="sound-modal">
+          <div class="sound-modal__title"></div>
+          <div class="sound-modal__border">
+            <div class="sound-modal__container">
+              <div class="sound-modal__music-block">
+                <div class="sound-modal__music-title">Музыка</div>
+                <div class="sound-modal__music-volume volume">
+                  <div class="volume-slider">
+                    <input type="range" class="volume-fader" min="0" max="100" value="50" step="1" />
+                  </div>
+                </div>
+              </div>
+              <div class="sound-modal__sounds-block">
+                <div class="sound-modal__sounds-title">громкость</div>
+                <div class="sound-modal__sounds-volume volume">
+                  <div class="volume-slider">
+                    <input type="range" class="volume-fader" min="0" max="100" value="50" step="1" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sound-modal__close"></div>
         </div>
       </div>
     </main>

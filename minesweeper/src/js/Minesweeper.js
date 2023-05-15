@@ -27,7 +27,6 @@ class Minesweeper {
   clickDownPointerCellHandler = (event) => {
     if (this.state === GAME_STATE.GAME_OVER || this.state === GAME_STATE.WINNER) return;
     // eslint-disable-next-line max-len
-
     const { row, column } = this.painter.getCellCoordinatesByClickXY(event.offsetX, event.offsetY);
     switch (event.buttons) {
       case 2:
@@ -84,7 +83,7 @@ class Minesweeper {
     }
     if (!this.grid[row][column].isOpened) {
       this.checkStateAfterClick(row, column);
-      this.painter.drawGrid(this.grid);
+      if (this.state === GAME_STATE.ACTIVE) this.painter.drawGrid(this.grid);
     }
   };
 
@@ -92,13 +91,14 @@ class Minesweeper {
     if (!this.isCellInGrid(row, column)) return;
     if (this.grid[row][column].isOpened) return;
     if (this.grid[row][column].hasFlag) return;
-    this.grid[row][column].isOpened = true;
-    this.openedCells += 1;
+    if (this.state === GAME_STATE.WINNER) return;
     if (this.grid[row][column].hasMine) {
       this.state = GAME_STATE.GAME_OVER;
+      this.painter.drawMines(this.grid, row, column);
       return;
     }
-
+    this.grid[row][column].isOpened = true;
+    this.openedCells += 1;
     if (this.grid[row][column].danger === 0) {
       this.checkStateAfterClick(row + 1, column + 1);
       this.checkStateAfterClick(row + 1, column);

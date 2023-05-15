@@ -9,7 +9,7 @@ const startNewGame = () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   minesweeperApp = new MinesweeperApp();
-  await minesweeperApp.loadData();
+  // await minesweeperApp.loadData();
   document.querySelector('.button-new-game').addEventListener('click', startNewGame);
   startNewGame();
 });

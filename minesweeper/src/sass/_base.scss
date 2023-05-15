@@ -1,7 +1,25 @@
+@font-face {
+  font-family: 'PF BeauSans Pro';
+  src: local('PF BeauSans Pro'), url('../assets/fonts/PFBeauSansPro-Bold.woff2') format('woff2'),
+    url('../assets/fonts/PFBeauSansPro-Bold.woff') format('woff'), url('../assets/fonts/PFBeauSansPro-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: 'PF BeauSans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 43px;
+  text-transform: uppercase;
+  color: #7c2121;
 }
 
 .disable-scroll {
@@ -10,7 +28,8 @@
 }
 
 .overlay {
-  position: fixed;
+  display: none;
+  // position: fixed;
   top: 0;
   left: 0;
   z-index: 4;
@@ -21,12 +40,4 @@
   justify-content: center;
   background-color: rgba(41, 41, 41, 0.6);
   @extend %transition03s;
-}
-
-@font-face {
-  font-family: 'PF BeauSans Pro';
-  src: local('PF BeauSans Pro'), url('../assets/fonts/PFBeauSansPro-Bold.woff2') format('woff2'),
-    url('../assets/fonts/PFBeauSansPro-Bold.woff') format('woff'), url('../assets/fonts/PFBeauSansPro-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
 }

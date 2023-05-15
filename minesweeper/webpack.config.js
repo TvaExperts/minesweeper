@@ -37,17 +37,21 @@ module.exports = (env, options) => {
     ],
     module: {
       rules: [
-        {
+        /* {
           test: /\.html$/i,
           loader: 'html-loader',
-        },
+        }, */
         {
           test: /\.scss$/,
           use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
-          test: /\.(png|jpg|svg|gif)$/i,
+          test: /\.(png|jpg|gif)$/i,
           type: 'asset/resource',
+        },
+        {
+          test: /\.(svg)$/i,
+          type: 'asset/inline',
         },
       ],
     },

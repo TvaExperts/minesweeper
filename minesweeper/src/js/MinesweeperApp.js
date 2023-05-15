@@ -3,7 +3,7 @@
 import AudioPlayer from './AudioPlayer';
 import Painter from './Painter';
 import Minesweeper from './Minesweeper';
-import { GAME_STATE, APP_THEME, MAX_WIDTH, BORDER_WIDTH } from './consts';
+import { GAME_STATE, APP_THEME, MAX_WIDTH, BORDER_WIDTH, BORDER_HEIGHT } from './consts';
 import { showTimeInMinutes } from './utils';
 
 class MinesweeperApp {
@@ -15,18 +15,28 @@ class MinesweeperApp {
     window.addEventListener('resize', this.checkResize);
   }
 
-  loadData = async () => {
+  /* loadData = async () => {
     await this.painter.loadAllImages();
-  };
+  }; */
 
-  calculateCellSize = (columns) => {
+  calculateCellSize = (rows, columns) => {
+    let cellSize = 80;
+    let calcCellSize = null;
     const windowWidth = document.documentElement.clientWidth;
-    if (windowWidth > MAX_WIDTH) return Math.floor((MAX_WIDTH - BORDER_WIDTH * 2) / columns);
-    return Math.floor((windowWidth - BORDER_WIDTH * 2) / columns);
+    if (windowWidth > MAX_WIDTH) {
+      calcCellSize = (MAX_WIDTH - BORDER_WIDTH * 2) / columns;
+    } else {
+      calcCellSize = (windowWidth - BORDER_WIDTH * 2) / columns;
+    }
+    if (cellSize > calcCellSize) cellSize = calcCellSize;
+    const windowHeight = document.documentElement.clientHeight;
+    calcCellSize = (windowHeight - BORDER_HEIGHT) / rows;
+    if (cellSize > calcCellSize) cellSize = calcCellSize;
+    return cellSize;
   };
 
   checkResize = () => {
-    const cellSize = this.calculateCellSize(this.minesweeper.columns);
+    const cellSize = this.calculateCellSize(this.minesweeper.rows, this.minesweeper.columns);
     if (cellSize === this.minesweeper.cellSize) return;
     this.painter.initGrid(
       cellSize,
@@ -43,7 +53,7 @@ class MinesweeperApp {
     const mines = parseInt(document.querySelector('.mines').value, 10);
     const rows = parseInt(document.querySelector('.rows').value, 10);
     const columns = parseInt(document.querySelector('.columns').value, 10);
-    const cellSize = this.calculateCellSize(columns);
+    const cellSize = this.calculateCellSize(rows, columns);
     this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, APP_THEME.LIGHT);
     this.minesweeper.initGame(rows, columns, mines);
     this.timerPlayTime = 0;
