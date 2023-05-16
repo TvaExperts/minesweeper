@@ -1,8 +1,13 @@
 @import './sass/abstract/constants';
 @import './sass/abstract/mixins';
 @import './sass/abstract/placeholders';
-@import './sass/base';
+@import './sass/base/base';
+@import './sass/components/frame';
+@import './sass/components/button';
+
+@import './sass/components/modal_title';
+@import './sass/components/modal_close';
+@import './sass/components/sound-modal';
+@import './sass/components/configs_modal';
 @import './sass/layouts';
-@import './sass/header';
 @import './sass/main';
-@import './sass/popup';

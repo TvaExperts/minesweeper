@@ -1,0 +1,46 @@
+.button {
+  display: inline-block;
+  padding: 2px 4px 8px;
+  font-size: 26px;
+  line-height: 31px;
+  border-radius: 100px;
+  background-color: #653e40;
+  cursor: pointer;
+
+  .theme-dark & {
+    background-color: #3b3c47;
+  }
+}
+
+.button--difficulty {
+  background-color: #6abab9;
+
+  .theme-dark & {
+    background-color: #6abab9;
+  }
+}
+
+.button--difficulty.button--active {
+  background-color: #259694;
+  cursor: default;
+}
+
+.button__text {
+  padding: 10px 20px 6px;
+  border-radius: 200px;
+  background-color: #ffc284;
+
+  .theme-dark & {
+    background-color: #9595ad;
+  }
+}
+
+.button--difficulty .button__text {
+  color: #328c98;
+  background-color: #c2f2f2;
+}
+
+.button--difficulty.button--active .button__text {
+  color: #ffffff;
+  background-color: #2cc0be;
+}

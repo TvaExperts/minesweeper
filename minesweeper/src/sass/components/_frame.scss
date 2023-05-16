@@ -1,0 +1,45 @@
+.frame {
+  padding: 10px;
+  background-color: $color_frame_outside_light_theme;
+  border-radius: 26px;
+
+  .popup-opened & {
+    background-color: $color_frame_outside_light_theme_popup;
+  }
+
+  .theme-dark & {
+    background-color: $color_frame_outside_dark_theme;
+  }
+
+  &--modal {
+    max-width: 775px;
+    padding: 8px;
+    border-radius: 30px;
+  }
+}
+
+.frame__middle {
+  padding: 16px;
+  @extend %background_frame_gradient_light_theme;
+  border-radius: 24px;
+
+  .theme-dark & {
+    @extend %background_frame_gradient_dark_theme;
+  }
+
+  .frame--modal & {
+    padding: 10px;
+  }
+}
+
+.frame__inside {
+  padding: 20px;
+  background: $color_primary_light_theme;
+  border: 3px solid $color_frame_inside_light_theme;
+  border-radius: 20px;
+
+  .theme-dark & {
+    background: $color_primary_dark_theme;
+    border: 3px solid $color_frame_inside_dark_theme;
+  }
+}

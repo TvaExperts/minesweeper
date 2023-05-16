@@ -19,7 +19,12 @@ body {
   font-size: 36px;
   line-height: 43px;
   text-transform: uppercase;
-  color: #7c2121;
+  color: $color_text_light_theme;
+
+  &.theme-dark {
+    color: $color_text_dark_theme;
+    color: white;
+  }
 }
 
 .disable-scroll {

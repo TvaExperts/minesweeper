@@ -11,19 +11,17 @@ class Painter {
   constructor() {
     this.canvas = document.querySelector('.canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.loadAllSVGImages();
-    this.theme = 'THEME_DARK';
   }
 
-  loadAllSVGImages = () => {
+  loadAllSVGImages = async () => {
     this.images = SVG_IMAGES;
+    const promises = [];
     Object.keys(this.images).forEach((theme) => {
       Object.keys(this.images[theme]).forEach((svg) => {
-        const img = document.createElement('img');
-        img.src = this.images[theme][svg];
-        this.images[theme][svg] = img;
+        promises.push(this.loadSVGImage(theme, svg));
       });
     });
+    await Promise.all(promises);
   };
 
   /* loadAllImages = async () => {
@@ -32,7 +30,7 @@ class Painter {
     await Promise.all(promises);
   };
 
-  loadImage = (key) => {
+  loadImage = (theme,key) => {
     return new Promise((resolve) => {
       const img = document.createElement('img');
       img.src = this.images[key];
@@ -43,14 +41,25 @@ class Painter {
     });
   }; */
 
-  initGrid = (cellSize, width, height, rows, colums /* theme */) => {
+  loadSVGImage = (theme, key) => {
+    return new Promise((resolve) => {
+      const img = document.createElement('img');
+      img.src = this.images[theme][key];
+      img.addEventListener('load', () => {
+        this.images[theme][key] = img;
+        resolve();
+      });
+    });
+  };
+
+  initGrid = (cellSize, width, height, rows, colums, theme) => {
     this.width = width;
     this.canvas.width = width;
     this.height = height;
     this.canvas.height = height;
     this.rows = rows;
     this.columns = colums;
-    this.theme = 'THEME_DARK';
+    this.theme = theme;
     this.cellSize = cellSize;
   };
 

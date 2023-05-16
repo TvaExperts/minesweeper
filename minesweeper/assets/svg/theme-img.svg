@@ -1,0 +1,29 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="30" cy="30" r="30" fill="url(#paint0_linear_92_3929)"/>
+<path d="M23.6352 5.81733C16.9701 16.275 17.9339 27.2299 23.3891 35.0414C28.8116 42.8063 38.6488 47.4291 49.7097 45.3813C45.1334 51.237 38.0061 55 30 55C16.1929 55 5 43.8071 5 30C5 18.3928 12.9107 8.63217 23.6352 5.81733Z" stroke="black"/>
+<path d="M4.5 30C4.5 44.0833 15.9167 55.5 30 55.5C38.642 55.5 46.2799 51.201 50.8919 44.625C28.125 49.875 10.125 26.25 24.75 5.04101C13.1854 7.46131 4.5 17.7164 4.5 30Z" fill="white"/>
+<path d="M4.5 30.0001C4.5 44.0834 15.9167 55.5001 30 55.5001C38.642 55.5001 45.7334 51.951 50.3454 45.375C24.2035 64.875 -5.45349 22.334 24.75 5.25C13.1854 7.6703 4.5 17.7165 4.5 30.0001Z" fill="#EEF0F4"/>
+<circle cx="11.25" cy="23.25" r="3" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="14.25" cy="36.75" r="2.25" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="23.25" cy="47.25" r="1.5" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="20.625" cy="37.875" r="1.125" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="17.25" cy="28.5" r="1.5" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="33.75" cy="47.25" r="2.25" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<circle cx="40.5" cy="50.25" r="1.5" fill="#EEF0F4" stroke="white" stroke-width="0.5"/>
+<path d="M30.375 11.25L31.4891 14.2609L34.5 15.375L31.4891 16.4891L30.375 19.5L29.2609 16.4891L26.25 15.375L29.2609 14.2609L30.375 11.25Z" fill="white"/>
+<path d="M49.125 25.5L49.834 27.416L51.75 28.125L49.834 28.834L49.125 30.75L48.416 28.834L46.5 28.125L48.416 27.416L49.125 25.5Z" fill="white"/>
+<path d="M34.125 33L34.834 34.916L36.75 35.625L34.834 36.334L34.125 38.25L33.416 36.334L31.5 35.625L33.416 34.916L34.125 33Z" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 32.25 5.25)" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 42 11.25)" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 44.25 32.25)" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 29.25 27)" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 38.25 23.25)" fill="white"/>
+<circle cx="0.75" cy="0.75" r="0.75" transform="matrix(-1 0 0 1 46.5 40.5)" fill="white"/>
+<defs>
+<linearGradient id="paint0_linear_92_3929" x1="9.375" y1="52.875" x2="51.375" y2="7.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#653E40"/>
+<stop offset="0.0001" stop-color="#291819"/>
+<stop offset="1" stop-color="#866062"/>
+</linearGradient>
+</defs>
+</svg>

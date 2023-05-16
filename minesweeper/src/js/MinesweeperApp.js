@@ -3,7 +3,7 @@
 import AudioPlayer from './AudioPlayer';
 import Painter from './Painter';
 import Minesweeper from './Minesweeper';
-import { GAME_STATE, APP_THEME, MAX_WIDTH, BORDER_WIDTH, BORDER_HEIGHT } from './consts';
+import { GAME_STATE, APP_THEME, BORDER_WIDTH, BORDER_HEIGHT } from './consts';
 import { showTimeInMinutes } from './utils';
 
 class MinesweeperApp {
@@ -11,23 +11,20 @@ class MinesweeperApp {
     this.audioPlayer = new AudioPlayer();
     this.painter = new Painter();
     this.minesweeper = new Minesweeper(this.painter, this.audioPlayer);
+    this.theme = APP_THEME.THEME_DARK;
     this.startTimers();
     window.addEventListener('resize', this.checkResize);
   }
 
-  /* loadData = async () => {
-    await this.painter.loadAllImages();
-  }; */
+  loadData = async () => {
+    await this.painter.loadAllSVGImages();
+  };
 
   calculateCellSize = (rows, columns) => {
-    let cellSize = 80;
+    let cellSize = 100;
     let calcCellSize = null;
     const windowWidth = document.documentElement.clientWidth;
-    if (windowWidth > MAX_WIDTH) {
-      calcCellSize = (MAX_WIDTH - BORDER_WIDTH * 2) / columns;
-    } else {
-      calcCellSize = (windowWidth - BORDER_WIDTH * 2) / columns;
-    }
+    calcCellSize = (windowWidth - BORDER_WIDTH * 2) / columns;
     if (cellSize > calcCellSize) cellSize = calcCellSize;
     const windowHeight = document.documentElement.clientHeight;
     calcCellSize = (windowHeight - BORDER_HEIGHT) / rows;
@@ -44,17 +41,17 @@ class MinesweeperApp {
       this.minesweeper.rows * cellSize,
       this.minesweeper.rows,
       this.minesweeper.columns,
-      APP_THEME.LIGHT
+      this.theme
     );
     this.painter.drawGrid(this.minesweeper.grid);
   };
 
   initNewGame = () => {
-    const mines = parseInt(document.querySelector('.mines').value, 10);
-    const rows = parseInt(document.querySelector('.rows').value, 10);
-    const columns = parseInt(document.querySelector('.columns').value, 10);
+    const mines = 10; // parseInt(document.querySelector('.mines').value, 10);
+    const rows = 10; // parseInt(document.querySelector('.rows').value, 10);
+    const columns = 10; // = parseInt(document.querySelector('.columns').value, 10);
     const cellSize = this.calculateCellSize(rows, columns);
-    this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, APP_THEME.LIGHT);
+    this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, this.theme);
     this.minesweeper.initGame(rows, columns, mines);
     this.timerPlayTime = 0;
     this.timerPlayTimeOnPage = document.querySelector('.minesweeper-app__game-time-value');

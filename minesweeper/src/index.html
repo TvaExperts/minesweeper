@@ -7,32 +7,38 @@
     <link rel="icon" type="image/x-icon" href="../assets/svg/favicon.svg" />
     <title>Minesweeper RSS</title>
   </head>
-  <body>
+  <body class="theme-dark">
+    <!--class="theme-dark"-->
     <main class="main">
       <div class="wrapper">
-        <div class="minesweeper-app">
-          <div class="minesweeper-app__container">
-            <div class="minesweeper-app__container-two">
-              <div class="minesweeper-app__header">
-                <div class="minesweeper-app__volume"></div>
-                <div class="minesweeper-app__statistics">
-                  <div class="minesweeper-app__mines-left">
-                    <div class="minesweeper-app__mines-left-flag"></div>
-                    <div class="minesweeper-app__mines-left-count">12</div>
+        <div class="frame">
+          <div class="frame__middle">
+            <div class="frame__inside">
+              <div class="minesweeper-app">
+                <div class="minesweeper-app__header">
+                  <div class="minesweeper-app__volume"></div>
+                  <div class="minesweeper-app__statistics">
+                    <div class="minesweeper-app__mines-left">
+                      <div class="minesweeper-app__mines-left-flag"></div>
+                      <div class="minesweeper-app__mines-left-count">12</div>
+                    </div>
+                    <div class="minesweeper-app__game-time">
+                      <div class="minesweeper-app__game-time-clock"></div>
+                      <div class="minesweeper-app__game-time-value">0:00</div>
+                    </div>
                   </div>
-                  <div class="minesweeper-app__game-time">
-                    <div class="minesweeper-app__game-time-clock"></div>
-                    <div class="minesweeper-app__game-time-value">0:00</div>
-                  </div>
+                  <div class="minesweeper-app__configs"></div>
                 </div>
-                <div class="minesweeper-app__configs"></div>
+                <canvas class="canvas"></canvas>
               </div>
-              <canvas class="canvas"></canvas>
-              <canvas class="canvas2" width="150" height="150"></canvas>
             </div>
           </div>
         </div>
+        <button class="button-new-game">New Game</button>
+        <br />
+        <br />
 
+        <!--
         <div class="configs">
           <label for="tentacles">Number of mines (10-100):</label>
           <input class="mines" value="10" type="number" id="tentacles" name="tentacles" min="10" max="100" />
@@ -41,40 +47,99 @@
           <label for="tentacles">Colums (10-50):</label>
           <input class="columns" value="10" type="number" id="tentacles" name="tentacles" min="10" max="100" />
           <button class="button-new-game">New Game</button>
-        </div>
-        <div  class="svg-grid">
+        </div>-->
+        <!--<div  class="svg-grid">
           <img src="../assets/svg/grid/Color=Brown, Shade=Dark, Stroke=No, Theme=Dark.svg" class="svg1"></img>
           <img src="../assets/svg/grid/Color=Brown, Shade=Light, Stroke=No, Theme=Dark.svg" class="svg1"></img>
           <img src="../assets/svg/grid/Color=Green, Shade=Dark, Stroke=No, Theme=Dark.svg" class="svg1"></img>
           <img src="../assets/svg/grid/Color=Green, Shade=Light, Stroke=No, Theme=Dark.svg" class="svg1"></img>
 
           <div class="svg5"></div>
-        </div>
+        </div> -->
       </div>
-      <div class="overlay">
-        <div class="sound-modal">
-          <div class="sound-modal__title"></div>
-          <div class="sound-modal__border">
-            <div class="sound-modal__container">
+      <!--<div class="overlay"> -->
+
+      <div class="frame frame--modal">
+        <div class="frame__middle">
+          <div class="frame__inside">
+            <div class="sound-modal">
+              <div class="sound-modal__title-block modal-title">
+                <div class="modal-title__text">звук</div>
+              </div>
               <div class="sound-modal__music-block">
                 <div class="sound-modal__music-title">Музыка</div>
-                <div class="sound-modal__music-volume volume">
-                  <div class="volume-slider">
-                    <input type="range" class="volume-fader" min="0" max="100" value="50" step="1" />
+                <div class="sound-modal__music-bar volume-bar">
+                  <div class="volume-bar__reduce"></div>
+                  <div class="volume-bar__scale">
+                    <div class="volume-bar__scale-border">
+                      <div class="volume-bar__scale-inside">
+                        <div class="volume-bar__volume"></div>
+                      </div>
+                    </div>
                   </div>
+                  <div class="volume-bar__increase"></div>
                 </div>
               </div>
               <div class="sound-modal__sounds-block">
                 <div class="sound-modal__sounds-title">громкость</div>
-                <div class="sound-modal__sounds-volume volume">
-                  <div class="volume-slider">
-                    <input type="range" class="volume-fader" min="0" max="100" value="50" step="1" />
+                <div class="sound-modal__sounds-bar volume-bar">
+                  <div class="volume-bar__reduce"></div>
+                  <div class="volume-bar__scale">
+                    <div class="volume-bar__scale-border">
+                      <div class="volume-bar__scale-inside">
+                        <div class="volume-bar__volume"></div>
+                      </div>
+                    </div>
                   </div>
+                  <div class="volume-bar__increase"></div>
                 </div>
               </div>
+              <div class="sound-modal__close modal-close"></div>
             </div>
           </div>
-          <div class="sound-modal__close"></div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+
+      <div class="frame frame--modal">
+        <div class="frame__middle">
+          <div class="frame__inside">
+            <div class="configs-modal">
+              <div class="configs-modal__title-block modal-title">
+                <div class="modal-title__text">настройки</div>
+              </div>
+              <div class="configs-modal__difficulty">
+                <div class="configs-modal__difficulty-title">сложность</div>
+                <div class="configs-modal__difficulty-easy button button--difficulty button--active">
+                  <div class="button__text">просто</div>
+                </div>
+                <div class="configs-modal__difficulty-midle button button--difficulty">
+                  <div class="button__text">средне</div>
+                </div>
+                <div class="configs-modal__difficulty-hard button button--difficulty">
+                  <div class="button__text">сложно</div>
+                </div>
+                <div class="configs-modal__mines-count">
+                  <label class="configs-modal__mines-count-text" for="minesCount">Mines:</label>
+                  <input class="configs-modal__mines-count-input" value="10" type="number" id="minesCount" name="minesCount" min="10" max="100" />
+                </div>
+              </div>
+              <div class="configs-modal__theme-block">
+                <div class="configs-modal__theme-img"></div>
+                <div class="configs-modal__theme-text">темная тема</div>
+                <label class="configs-modal__theme-config checkbox">
+                  <input type="checkbox" class="checkbox__input configs-modal__theme-checkbox" />
+                  <div class="checkbox__wrapper"></div>
+                </label>
+              </div>
+              <div class="configs-modal__rating-button button">
+                <div class="button__text">рейтинг игроков</div>
+              </div>
+              <div class="configs-modal__close modal-close"></div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
