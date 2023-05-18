@@ -1,0 +1,90 @@
+.end-modal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.end-modal__header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+
+  .end-modal--lose & {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.end-modal__header-img {
+  width: 180px;
+  height: 120px;
+  background-image: url('../assets/svg/pop-up/cup.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 30px;
+
+  .end-modal--lose & {
+    background-image: url('../assets/svg/pop-up/face.svg');
+    margin-bottom: 0;
+  }
+}
+
+.end-modal__greeting {
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 4px;
+}
+
+.end-modal__place {
+  font-size: 36px;
+  line-height: 43px;
+}
+
+.end-modal__statistics {
+  display: flex;
+  column-gap: 50px;
+  align-items: center;
+}
+
+.end-modal__time-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.end-modal__time-icon {
+  width: 100px;
+  height: 100px;
+  background-image: url('../assets/svg/pop-up/time.svg');
+
+  .win-modal__time-block--best & {
+    background-image: url('../assets/svg/pop-up/best-time.svg');
+  }
+}
+
+.end-modal__time-text {
+  font-size: 16px;
+  line-height: 19px;
+  color: #b47c7c;
+
+  .theme-dark & {
+    color: #9299b1;
+  }
+}
+
+.end-modal__time-value {
+  font-size: 25px;
+  line-height: 30px;
+  color: #000000;
+  margin-bottom: 2px;
+
+  .theme-dark & {
+    color: #ffffff;
+  }
+}

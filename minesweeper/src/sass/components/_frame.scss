@@ -3,7 +3,7 @@
   background-color: $color_frame_outside_light_theme;
   border-radius: 26px;
 
-  .popup-opened & {
+  .open & {
     background-color: $color_frame_outside_light_theme_popup;
   }
 
@@ -12,7 +12,6 @@
   }
 
   &--modal {
-    max-width: 775px;
     padding: 8px;
     border-radius: 30px;
   }

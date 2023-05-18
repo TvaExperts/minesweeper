@@ -1,16 +1,8 @@
 .configs-modal {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 60px;
-  margin: 50px 0;
-}
-
-.configs-modal__title-block {
-  position: absolute;
-  margin: 0 auto;
-  top: -130px;
 }
 
 .configs-modal__difficulty {
@@ -131,11 +123,4 @@ $checkbox_offset: 2px;
 
 .configs-modal__rating-button {
   margin: 0 auto;
-}
-
-.configs-modal__close {
-  position: absolute;
-  margin: 0 auto;
-  bottom: -130px;
-  cursor: pointer;
 }

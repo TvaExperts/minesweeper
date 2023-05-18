@@ -1,16 +1,15 @@
 import './index.scss';
 import MinesweeperApp from './js/MinesweeperApp';
 
-let minesweeperApp;
+const minesweeperApp = new MinesweeperApp();
 
 const startNewGame = () => {
   minesweeperApp.initNewGame();
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  minesweeperApp = new MinesweeperApp();
+  // minesweeperApp = new MinesweeperApp();
   await minesweeperApp.loadData();
-  document.querySelector('.button-new-game').addEventListener('click', startNewGame);
-  // setTimeout(startNewGame, 50);
+  document.querySelector('.minesweeper-app__game-time-clock').addEventListener('click', startNewGame);
   startNewGame();
 });

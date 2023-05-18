@@ -4,10 +4,9 @@
 @import './sass/base/base';
 @import './sass/components/frame';
 @import './sass/components/button';
-
-@import './sass/components/modal_title';
-@import './sass/components/modal_close';
-@import './sass/components/sound-modal';
+@import './sass/components/modal';
+@import './sass/components/volume_bar';
 @import './sass/components/configs_modal';
-@import './sass/layouts';
+@import './sass/components/rating_modal';
+@import './sass/components/end-modal';
 @import './sass/main';

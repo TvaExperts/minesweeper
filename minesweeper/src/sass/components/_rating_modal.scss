@@ -1,0 +1,89 @@
+.rating-modal__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 19px;
+  color: #9299b1;
+  width: 100%;
+  column-gap: 34px;
+  margin-bottom: 20px;
+}
+
+.rating-modal__header-item:first-child {
+  flex-grow: 1;
+}
+
+.rating-modal__list {
+  font-size: 24px;
+  line-height: 44px;
+}
+
+.rating-modal__list-item {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.rating-modal__item-place {
+  width: 40px;
+  height: 45px;
+  text-align: center;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+.rating-modal__list .rating-modal__list-item:nth-child(1) {
+  & .rating-modal__item-place {
+    color: transparent;
+    background-image: url('../assets/svg/pop-up/place-first.svg');
+  }
+}
+
+.rating-modal__list .rating-modal__list-item:nth-child(2) {
+  & .rating-modal__item-place {
+    color: transparent;
+    background-image: url('../assets/svg/pop-up/place-second.svg');
+  }
+}
+
+.rating-modal__list .rating-modal__list-item:nth-child(3) {
+  & .rating-modal__item-place {
+    color: transparent;
+    background-image: url('../assets/svg/pop-up/place-third.svg');
+  }
+}
+/*
+.rating-modal__list .rating-modal__item-place:nth-child(2) {
+  color: transparent;
+  background-image: url('../assets/svg/pop-up/place-second.svg');
+}
+
+.rating-modal__list .rating-modal__item-place:nth-child(3) {
+  color: transparent;
+  background-image: url('../assets/svg/pop-up/place-third.svg');
+}
+/*
+.rating-modal__item-place:nth-child(1) {
+  color: transparent;
+  background-image: url('../assets/svg/pop-up/place-first.svg');
+}
+
+.rating-modal__item-place:nth-child(2) {
+  color: transparent;
+  background-image: url('../assets/svg/pop-up/place-second.svg');
+}
+
+.rating-modal__item-place:nth-child(3) {
+  color: transparent;
+  background-image: url('../assets/svg/pop-up/place-third.svg');
+}*/
+
+.rating-modal__item-name {
+  flex-grow: 1;
+}
+
+.rating-modal__item-time {
+  text-align: end;
+  width: 70px;
+}

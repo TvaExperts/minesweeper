@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
 
 import Cell from './Cell';
-import { GAME_STATE } from './consts';
+import { GAME_STATE, MODAL_NAMES } from './consts';
 import { getRandomNum, preventDefault } from './utils';
 
 class Minesweeper {
-  constructor(painter, audioPlayer) {
+  constructor(app, painter, audioPlayer) {
     this.audioPlayer = audioPlayer;
     this.painter = painter;
+    this.app = app;
     this.painter.canvas.addEventListener('pointerdown', this.clickDownPointerCellHandler);
     this.painter.canvas.addEventListener('contextmenu', preventDefault);
     this.minesCounter = document.querySelector('.minesweeper-app__mines-left-count');
@@ -47,7 +48,8 @@ class Minesweeper {
     if (markedNeighborsCount === this.grid[row][column].danger) {
       this.clickAllHidenNeighbors(row, column);
     }
-    this.painter.drawGrid(this.grid);
+    if (this.state !== GAME_STATE.GAME_OVER) this.painter.drawGrid(this.grid);
+    if (this.state === GAME_STATE.WINNER) this.painter.drawMines(this.grid, row, column);
   };
 
   getMarkedNeighborsCount = (row, column) => {
@@ -95,6 +97,7 @@ class Minesweeper {
     if (this.grid[row][column].hasMine) {
       this.state = GAME_STATE.GAME_OVER;
       this.painter.drawMines(this.grid, row, column);
+      this.app.handleLose();
       return;
     }
     this.grid[row][column].isOpened = true;
@@ -111,7 +114,9 @@ class Minesweeper {
     }
     if (this.isWin()) {
       this.state = GAME_STATE.WINNER;
-      alert('Winn!');
+      this.painter.drawGrid(this.grid);
+      this.painter.drawMines(this.grid);
+      this.app.handleWin();
     }
   };
 
@@ -189,7 +194,6 @@ class Minesweeper {
       }
       this.grid.push(rowArr);
     }
-    this.painter.drawGrid(this.grid);
   };
 }
 

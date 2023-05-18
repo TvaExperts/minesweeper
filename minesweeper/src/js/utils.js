@@ -4,4 +4,10 @@ const showTimeInMinutes = (secCount) => `${Math.floor(secCount / 60)} : ${(secCo
 
 const preventDefault = (event) => event.preventDefault();
 
-export { getRandomNum, showTimeInMinutes, preventDefault };
+const createElement = (tag, classes) => {
+  const element = document.createElement(tag);
+  element.classList.add(...classes);
+  return element;
+};
+
+export { getRandomNum, showTimeInMinutes, preventDefault, createElement };

@@ -2,14 +2,12 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable max-len */
 
-// import { GRID_IMAGES } from './consts';
-// import PALETTE from './palette';
 import { WATERSHED_COLOR_LIGHT_THEME, WATERSHED_COLOR_DARK_THEME } from './consts';
 import SVG_IMAGES from './SVGs';
 
 class Painter {
   constructor() {
-    this.canvas = document.querySelector('.canvas');
+    this.canvas = document.querySelector('.minesweeper-app__minesweeper');
     this.ctx = this.canvas.getContext('2d');
   }
 
@@ -23,23 +21,6 @@ class Painter {
     });
     await Promise.all(promises);
   };
-
-  /* loadAllImages = async () => {
-    this.images = GRID_IMAGES;
-    const promises = Object.keys(this.images).map((key) => this.loadImage(key));
-    await Promise.all(promises);
-  };
-
-  loadImage = (theme,key) => {
-    return new Promise((resolve) => {
-      const img = document.createElement('img');
-      img.src = this.images[key];
-      img.addEventListener('load', () => {
-        this.images[key] = img;
-        resolve();
-      });
-    });
-  }; */
 
   loadSVGImage = (theme, key) => {
     return new Promise((resolve) => {
@@ -115,7 +96,7 @@ class Painter {
     }
   };
 
-  drawMines = (grid, clickedRow, clickedColumn) => {
+  drawMines = (grid, clickedRow = -1, clickedColumn = -1) => {
     for (let row = 0; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         if (grid[row][column].hasMine) {

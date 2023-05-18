@@ -1,37 +1,14 @@
-.sound-modal {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 60px;
-  margin: 50px;
-}
-
-.sound-modal__title-block {
-  position: absolute;
-  top: -130px;
-  margin: 0 auto;
-}
-
-.sound-modal__music-block {
-  width: 100%;
-  text-align: center;
-}
-
-.sound-modal__sounds-block {
-  width: 100%;
-  text-align: center;
-}
-
-.sound-modal__music-title {
-  margin-bottom: 12px;
-}
-
-.sound-modal__sounds-title {
-  margin-bottom: 12px;
-}
-
 .volume-bar {
+  padding: 0 27px;
+  width: 100%;
+  text-align: center;
+}
+
+.volume-bar__title {
+  margin-bottom: 12px;
+}
+
+.volume-bar__controls {
   display: flex;
   height: 52px;
   column-gap: 17px;
@@ -42,6 +19,7 @@
   padding: 2px 8px 8px;
   background-color: #e28418;
   border-radius: 200px;
+  width: 336px;
 
   .theme-dark & {
     background: #3d3e4a;
@@ -60,7 +38,7 @@
 }
 
 .volume-bar__volume {
-  width: 100%;
+  width: 50%;
   height: 100%;
   background: #2cc0be;
   border-radius: 200px;
@@ -77,9 +55,10 @@
   }
 }
 
-.volume-bar__reduce {
+.volume-bar__decrease {
   width: 46px;
   height: 46px;
+  cursor: pointer;
   background-image: url('../assets/svg/pop-up/minus-light.svg');
 
   .theme-dark & {
@@ -90,16 +69,10 @@
 .volume-bar__increase {
   width: 46px;
   height: 46px;
+  cursor: pointer;
   background-image: url('../assets/svg/pop-up/plus-light.svg');
 
   .theme-dark & {
     background-image: url('../assets/svg/pop-up/plus-dark.svg');
   }
-}
-
-.sound-modal__close {
-  position: absolute;
-  margin: 0 auto;
-  bottom: -130px;
-  cursor: pointer;
 }
