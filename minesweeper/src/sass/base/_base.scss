@@ -20,9 +20,26 @@ body {
   line-height: 43px;
   text-transform: uppercase;
   color: $color_text_light_theme;
+  background-color: #ffe8cc;
 
   &.theme-dark {
     color: $color_text_dark_theme;
     color: white;
+    background-color: #2e3441;
+  }
+
+  @include media-one {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  /*
+  @include media-two {
+    font-size: 20px;
+    line-height: 24px;
+  } */
+
+  @include media-three {
+    font-size: 20px;
+    line-height: 24px;
   }
 }

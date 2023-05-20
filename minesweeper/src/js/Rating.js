@@ -1,23 +1,22 @@
 class Rating {
-  constructor(rating) {
-    this.rating = rating;
+  constructor() {
+    this.list = [];
   }
 
-  addResultInRating = (gameResult) => {
-    if (this.rating.length === 0) {
-      return this.rating.push(gameResult);
-    }
-    const newPlace = this.rating.filter((item) => item.time < gameResult.time).length;
-    this.rating.splice(newPlace, 0, gameResult);
-    if (this.rating.length > 10) this.rating.pop();
-    return newPlace + 1;
+  getBestTime = () => {
+    let bestTime = Number.MAX_VALUE;
+    this.list.forEach((result) => {
+      if (result.time < bestTime) bestTime = result.time;
+    });
+    return bestTime === Number.MAX_VALUE ? -1 : bestTime;
   };
 
-  push = (gameResult) => {
-    if (this.rating.length < 10 || this.rating[9].time > gameResult.time) {
-      return this.addResultInRating(gameResult);
-    }
-    return -1;
+  getPlace = (time) => this.list.filter((result) => result.time <= time).length;
+
+  push = (newGameResult) => {
+    if (this.list.length === 10) this.list.shift();
+    this.list.push(newGameResult);
+    return this.getPlace(newGameResult.time);
   };
 }
 

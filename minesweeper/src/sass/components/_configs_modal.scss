@@ -16,15 +16,38 @@
   text-align: center;
   width: 100%;
   margin-bottom: 22px;
+
+  @include media-one {
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+
+  @include media-three {
+    font-size: 20px;
+    margin-bottom: 22px;
+  }
 }
 
 .configs-modal__mines-count-text {
   font-size: 18px;
   line-height: 22px;
+  margin-right: 6px;
+
+  @include media-one {
+    font-size: 14px;
+    line-height: 22px;
+    margin-right: 4px;
+  }
+
+  @include media-three {
+    font-size: 12px;
+    line-height: 22px;
+    margin-right: 2px;
+  }
 }
 
 .configs-modal__mines-count-input {
-  width: 80px;
+  width: 64px;
   height: 57px;
   background: #ffffff;
   border: 3px solid #7c2121;
@@ -36,6 +59,21 @@
   line-height: 31px;
   text-align: center;
   outline: none;
+
+  @include media-one {
+    width: 48px;
+    height: 46px;
+    font-size: 20px;
+    line-height: 28px;
+    border: 2px solid #7c2121;
+  }
+
+  @include media-three {
+    width: 40px;
+    height: 34px;
+    font-size: 16px;
+    line-height: 20px;
+  }
 
   .theme-dark & {
     background: #eaeaf3;
@@ -60,6 +98,18 @@
   background-color: $color_blocks_background_light_theme;
   border-radius: 30px;
 
+  @include media-one {
+    column-gap: 24px;
+    padding: 12px 28px;
+    border-radius: 24px;
+  }
+
+  @include media-three {
+    column-gap: 24px;
+    padding: 8px 20px;
+    border-radius: 16px;
+  }
+
   .theme-dark & {
     background-color: #787e8b;
   }
@@ -68,13 +118,42 @@
 .configs-modal__theme-img {
   height: 60px;
   width: 60px;
+  background-size: cover;
   background-image: url('../assets/svg/theme-img.svg');
+
+  @include media-one {
+    height: 48px;
+    width: 48px;
+  }
+
+  @include media-three {
+    height: 32px;
+    width: 32px;
+  }
 }
 
 .configs-modal__theme-text {
   flex-grow: 1;
   font-size: 30px;
   line-height: 36px;
+
+  @include media-one {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  @include media-three {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.configs-modal__theme-config {
+  font-size: 36px;
+
+  @include media-three {
+    font-size: 28px;
+  }
 }
 
 $checkbox_width: 51px;
@@ -92,6 +171,18 @@ $checkbox_offset: 2px;
   height: $checkbox_height;
   border-radius: $checkbox_width;
   background-color: $color_checkbox_first_color;
+
+  @include media-one {
+    width: calc($checkbox_width * 0.8);
+    height: calc($checkbox_height * 0.8);
+    border-radius: calc($checkbox_width * 0.8);
+  }
+
+  @include media-three {
+    width: calc($checkbox_width * 0.6);
+    height: calc($checkbox_height * 0.6);
+    border-radius: calc($checkbox_width * 0.6);
+  }
 }
 
 .checkbox__input {
@@ -105,12 +196,26 @@ $checkbox_offset: 2px;
   position: absolute;
   top: $checkbox_offset;
   left: $checkbox_offset;
-  width: calc($checkbox_height - $checkbox_offset - $checkbox_offset);
-  height: calc($checkbox_height - $checkbox_offset - $checkbox_offset);
+  width: calc($checkbox_height - $checkbox_offset - $checkbox_offset - 1px);
+  height: calc($checkbox_height - $checkbox_offset - $checkbox_offset - 1px);
   background: #ffffff;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
   border-radius: 50%;
   transition: all 0.3s;
+
+  @include media-one {
+    top: calc($checkbox_offset * 0.8);
+    left: calc($checkbox_offset * 0.8);
+    width: calc(($checkbox_height - $checkbox_offset - $checkbox_offset) * 0.8);
+    height: calc(($checkbox_height - $checkbox_offset - $checkbox_offset) * 0.8);
+  }
+
+  @include media-three {
+    top: calc($checkbox_offset * 0.6);
+    left: calc($checkbox_offset * 0.6);
+    width: calc(($checkbox_height - $checkbox_offset - $checkbox_offset) * 0.6);
+    height: calc(($checkbox_height - $checkbox_offset - $checkbox_offset) * 0.6);
+  }
 }
 
 .checkbox__input:checked ~ .checkbox__wrapper {
@@ -119,6 +224,14 @@ $checkbox_offset: 2px;
 
 .checkbox__input:checked ~ .checkbox__wrapper:before {
   left: calc($checkbox_width - $checkbox_height + $checkbox_offset);
+
+  @include media-one {
+    left: calc(($checkbox_width - $checkbox_height + $checkbox_offset) * 0.8);
+  }
+
+  @include media-three {
+    left: calc(($checkbox_width - $checkbox_height + $checkbox_offset) * 0.6);
+  }
 }
 
 .configs-modal__rating-button {

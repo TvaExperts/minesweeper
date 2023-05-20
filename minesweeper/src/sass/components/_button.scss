@@ -6,6 +6,18 @@
   border-radius: 100px;
   background-color: #653e40;
   cursor: pointer;
+  transition: all 0.3s ease;
+
+  @include media-one {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  @include media-three {
+    padding: 2px 3px 4px;
+    font-size: 16px;
+    line-height: 20px;
+  }
 
   .theme-dark & {
     background-color: #3b3c47;
@@ -30,15 +42,35 @@
   padding: 10px 20px 6px;
   border-radius: 200px;
   background-color: #ffc284;
+  transition: all 0.3s ease;
+
+  @include media-one {
+    padding: 6px 12px 4px;
+  }
+
+  @include media-three {
+    padding: 4px 8px 2px;
+  }
 
   .theme-dark & {
     background-color: #9595ad;
   }
 }
 
+.button__text:hover {
+  background-color: #f7b67c;
+  .theme-dark & {
+    background-color: #8d8da4;
+  }
+}
+
 .button--difficulty .button__text {
   color: #328c98;
   background-color: #c2f2f2;
+}
+
+.button--difficulty .button__text:hover {
+  background-color: #b7ebeb;
 }
 
 .button--difficulty.button--active .button__text {

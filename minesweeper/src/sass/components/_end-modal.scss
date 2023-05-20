@@ -15,9 +15,27 @@
   margin-bottom: 40px;
   text-align: center;
 
+  @include media-one {
+    margin-bottom: 32px;
+  }
+
+  @include media-three {
+    margin-bottom: 20px;
+  }
+
   .end-modal--lose & {
     font-size: 20px;
     line-height: 24px;
+
+    @include media-one {
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    @include media-three {
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 }
 
@@ -27,11 +45,34 @@
   background-image: url('../assets/svg/pop-up/cup.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
   margin-bottom: 30px;
 
+  @include media-one {
+    width: 150px;
+    height: 100px;
+  }
+
+  @include media-three {
+    width: 120px;
+    height: 80px;
+    margin-bottom: 20px;
+  }
+
   .end-modal--lose & {
+    width: 120px;
+    height: 120px;
     background-image: url('../assets/svg/pop-up/face.svg');
-    margin-bottom: 0;
+
+    @include media-one {
+      width: 100px;
+      height: 100px;
+    }
+
+    @include media-three {
+      width: 80px;
+      height: 80px;
+    }
   }
 }
 
@@ -39,17 +80,45 @@
   font-size: 20px;
   line-height: 24px;
   margin-bottom: 4px;
+
+  @include media-one {
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  @include media-three {
+    font-size: 16px;
+    line-height: 20px;
+  }
 }
 
 .end-modal__place {
   font-size: 36px;
   line-height: 43px;
+
+  @include media-one {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  @include media-three {
+    font-size: 28px;
+    line-height: 30px;
+  }
 }
 
 .end-modal__statistics {
   display: flex;
   column-gap: 50px;
   align-items: center;
+
+  @include media-one {
+    column-gap: 40px;
+  }
+
+  @include media-three {
+    column-gap: 20px;
+  }
 }
 
 .end-modal__time-block {
@@ -61,7 +130,18 @@
 .end-modal__time-icon {
   width: 100px;
   height: 100px;
+  background-size: cover;
   background-image: url('../assets/svg/pop-up/time.svg');
+
+  @include media-one {
+    width: 80px;
+    height: 80px;
+  }
+
+  @include media-three {
+    width: 60px;
+    height: 60px;
+  }
 
   .win-modal__time-block--best & {
     background-image: url('../assets/svg/pop-up/best-time.svg');
@@ -73,6 +153,16 @@
   line-height: 19px;
   color: #b47c7c;
 
+  @include media-one {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  @include media-three {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
   .theme-dark & {
     color: #9299b1;
   }
@@ -83,6 +173,16 @@
   line-height: 30px;
   color: #000000;
   margin-bottom: 2px;
+
+  @include media-one {
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  @include media-three {
+    font-size: 16px;
+    line-height: 20px;
+  }
 
   .theme-dark & {
     color: #ffffff;

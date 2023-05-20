@@ -61,7 +61,6 @@ class Painter {
           this.cellSize,
           this.cellSize
         );
-        // this.ctx.drawImage(this.images.OPENED_LIGHT, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
       } else {
         this.ctx.drawImage(
           this.images[this.theme].CELL_HIDEN_LIGHT,
@@ -70,8 +69,6 @@ class Painter {
           this.cellSize,
           this.cellSize
         );
-
-        // this.ctx.drawImage(this.images.HIDEN_LIGHT, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
       }
     } else if (cell.isOpened) {
       this.ctx.drawImage(
@@ -81,8 +78,6 @@ class Painter {
         this.cellSize,
         this.cellSize
       );
-
-      //  this.ctx.drawImage(this.images.OPENED_DARK, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
     } else {
       this.ctx.drawImage(
         this.images[this.theme].CELL_HIDEN_DARK,
@@ -91,8 +86,6 @@ class Painter {
         this.cellSize,
         this.cellSize
       );
-
-      // this.ctx.drawImage(this.images.HIDEN_DARK, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
     }
   };
 
@@ -112,26 +105,21 @@ class Painter {
   };
 
   drawGrid = (grid) => {
-    // let isGameOver = false;
     for (let row = 0; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         this.drawCellBackground(grid[row][column]);
         if (grid[row][column].hasFlag) this.drawFlag(grid[row][column]);
         if (grid[row][column].isOpened && grid[row][column].danger) this.drawDigit(grid[row][column]);
-        // if (grid[row][column].isOpened && grid[row][column].hasMine) isGameOver = true;
       }
     }
-    // if (isGameOver) this.drawMines(grid);
     this.drawBorderBetweenOpenAndHidenCells(grid);
   };
 
   drawFlag = (cell) => {
     this.ctx.drawImage(this.images[this.theme].FLAG, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
-    // this.ctx.drawImage(this.images.FLAG, cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
   };
 
   drawDigit = (cell) => {
-    // this.ctx.drawImage(this.images[cell.danger], cell.column * this.cellSize, cell.row * this.cellSize, this.cellSize, this.cellSize);
     this.ctx.drawImage(
       this.images[this.theme][`DIGIT${cell.danger}`],
       cell.column * this.cellSize,
@@ -152,10 +140,8 @@ class Painter {
       for (let column = 0; column < this.columns; column += 1) {
         if (grid[row][column].isOpened && !grid[row - 1][column].isOpened) {
           this.fillRect(watershedColor, column * this.cellSize, row * this.cellSize, this.cellSize, 3);
-          // this.fillRect(PALETTE[this.theme].CELL_BORDER_INSIDE, column * this.cellSize, row * this.cellSize - 1, this.cellSize, 1);
         }
         if (!grid[row][column].isOpened && grid[row - 1][column].isOpened) {
-          // this.fillRect(PALETTE[this.theme].CELL_BORDER_OUTSIDE, column * this.cellSize, row * this.cellSize - 1, this.cellSize, 1);
           this.fillRect(watershedColor, column * this.cellSize, row * this.cellSize - 3, this.cellSize, 3);
         }
       }
@@ -163,11 +149,9 @@ class Painter {
     for (let row = 0; row < this.rows; row += 1) {
       for (let column = 1; column < this.columns; column += 1) {
         if (grid[row][column].isOpened && !grid[row][column - 1].isOpened) {
-          // this.fillRect(PALETTE[this.theme].CELL_BORDER_OUTSIDE, column * this.cellSize, row * this.cellSize, 1, this.cellSize);
           this.fillRect(watershedColor, column * this.cellSize, row * this.cellSize, 3, this.cellSize);
         }
         if (!grid[row][column].isOpened && grid[row][column - 1].isOpened) {
-          // this.fillRect(PALETTE[this.theme].CELL_BORDER_OUTSIDE, column * this.cellSize - 1, row * this.cellSize, 1, this.cellSize);
           this.fillRect(watershedColor, column * this.cellSize - 3, row * this.cellSize, 3, this.cellSize);
         }
       }

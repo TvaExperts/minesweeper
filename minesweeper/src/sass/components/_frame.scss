@@ -11,9 +11,21 @@
     background-color: $color_frame_outside_dark_theme;
   }
 
+  @include media-one {
+    padding: 8px;
+  }
+
+  @include media-three {
+    padding: 6px;
+  }
+
   &--modal {
     padding: 8px;
     border-radius: 30px;
+
+    @include media-three {
+      padding: 6px;
+    }
   }
 }
 
@@ -26,8 +38,24 @@
     @extend %background_frame_gradient_dark_theme;
   }
 
+  @include media-one {
+    padding: 12px;
+  }
+
+  @include media-three {
+    padding: 8px;
+  }
+
   .frame--modal & {
     padding: 10px;
+
+    @include media-one {
+      padding: 8px;
+    }
+
+    @include media-three {
+      padding: 6px;
+    }
   }
 }
 
@@ -36,6 +64,14 @@
   background: $color_primary_light_theme;
   border: 3px solid $color_frame_inside_light_theme;
   border-radius: 20px;
+
+  @include media-one {
+    padding: 16px;
+  }
+
+  @include media-three {
+    padding: 12px;
+  }
 
   .theme-dark & {
     background: $color_primary_dark_theme;
