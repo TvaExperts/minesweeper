@@ -6,10 +6,11 @@ import { GAME_STATE } from './consts';
 import { getRandomNum, preventDefault } from './utils';
 
 class Minesweeper {
-  constructor(app, painter, audioPlayer) {
+  constructor(app, painter, audioPlayer, loseHandler, winHandler) {
     this.audioPlayer = audioPlayer;
     this.painter = painter;
-    this.app = app;
+    this.loseHandler = loseHandler;
+    this.winHandler = winHandler;
     this.painter.canvas.addEventListener('pointerdown', this.clickDownPointerCellHandler);
     this.painter.canvas.addEventListener('contextmenu', preventDefault);
   }
@@ -103,7 +104,6 @@ class Minesweeper {
 
   clickMouseCellHandler = (row, column) => {
     if (this.state === GAME_STATE.WAITING_START) {
-      this.audioPlayer.playLoop();
       this.state = GAME_STATE.ACTIVE;
       this.generateMineMap(row, column);
       this.countDangerInAllGrid();
@@ -116,7 +116,7 @@ class Minesweeper {
     }
   };
 
-  checkStateAfterClick = (row, column) => {
+  checkStateAfterClick = (row, column, isRecursive = false) => {
     if (!this.isCellInGrid(row, column)) return;
     if (this.grid[row][column].isOpened) return;
     if (this.grid[row][column].hasFlag) return;
@@ -124,27 +124,29 @@ class Minesweeper {
     if (this.grid[row][column].hasMine) {
       this.state = GAME_STATE.GAME_OVER;
       this.painter.drawMines(this.grid, row, column);
-      this.app.handleLose();
+      this.loseHandler();
       return;
     }
     this.grid[row][column].isOpened = true;
     this.openedCellsCount += 1;
+    if (!isRecursive) this.audioPlayer.sounds.dig.play();
     if (this.isWin()) {
       this.state = GAME_STATE.WINNER;
       this.painter.drawGrid(this.grid);
       this.painter.drawMines(this.grid);
-      this.app.handleWin();
+      this.winHandler();
       return;
     }
     if (this.grid[row][column].danger === 0) {
-      this.checkStateAfterClick(row + 1, column + 1);
-      this.checkStateAfterClick(row + 1, column);
-      this.checkStateAfterClick(row + 1, column - 1);
-      this.checkStateAfterClick(row, column - 1);
-      this.checkStateAfterClick(row - 1, column - 1);
-      this.checkStateAfterClick(row - 1, column);
-      this.checkStateAfterClick(row - 1, column + 1);
-      this.checkStateAfterClick(row, column + 1);
+      if (!isRecursive) this.audioPlayer.sounds.collapse.play();
+      this.checkStateAfterClick(row + 1, column + 1, true);
+      this.checkStateAfterClick(row + 1, column, true);
+      this.checkStateAfterClick(row + 1, column - 1, true);
+      this.checkStateAfterClick(row, column - 1, true);
+      this.checkStateAfterClick(row - 1, column - 1, true);
+      this.checkStateAfterClick(row - 1, column, true);
+      this.checkStateAfterClick(row - 1, column + 1, true);
+      this.checkStateAfterClick(row, column + 1, true);
     }
   };
 
@@ -202,9 +204,11 @@ class Minesweeper {
     if (this.grid[row][column].isOpened) return;
     if (this.grid[row][column].hasFlag) {
       this.grid[row][column].hasFlag = false;
+      this.audioPlayer.sounds.unflag.play();
       this.flagCount -= 1;
     } else {
       this.grid[row][column].hasFlag = true;
+      this.audioPlayer.sounds.flag.play();
       this.flagCount += 1;
     }
     let minesLeft = this.mines - this.flagCount;

@@ -31,9 +31,9 @@ module.exports = (env, options) => {
         filename: 'index.html',
         template: './src/index.html',
       }),
-      new CopyPlugin({
+      /* new CopyPlugin({
         patterns: [{ from: 'assets', to: 'assets' }],
-      }),
+      }), */
     ],
     module: {
       rules: [
@@ -47,6 +47,10 @@ module.exports = (env, options) => {
         },
         {
           test: /\.(png|jpg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.(mp3|wav)$/i,
           type: 'asset/resource',
         },
         {

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   minesweeperApp.loadRating(dataForLoading.rating);
   minesweeperApp.initNewGame(dataForLoading.game);
+  setTimeout(minesweeperApp.audioPlayer.playMusic, 300);
 });
 
 window.addEventListener('beforeunload', () => {

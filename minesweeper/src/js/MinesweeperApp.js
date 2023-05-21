@@ -3,18 +3,19 @@
 import AudioPlayer from './AudioPlayer';
 import Painter from './Painter';
 import Minesweeper from './Minesweeper';
-import { GAME_STATE, APP_THEME, DIFFICULTIES, MODAL_NAMES, BORDER_WIDTHS } from './consts';
-import { createElement } from './utils';
+import { GAME_STATE, DIFFICULTIES, MODAL_NAMES, BORDER_WIDTHS } from './consts';
 import Rating from './Rating';
 import Builder from './Builder';
 
 class MinesweeperApp {
   constructor(appConfigs) {
     this.loadConfigsApp(appConfigs);
-    this.buildPage();
-    this.audioPlayer = new AudioPlayer();
+    this.audioPlayer = new AudioPlayer(this.musicVolume, this.soundVolume);
+    this.builder = new Builder(this.generateListOfCallbacks());
+    this.builder.buildPage(this.difficulty, this.minesCount, this.theme, this.soundVolume, this.musicVolume);
+    this.addListenersOnPage();
     this.painter = new Painter();
-    this.minesweeper = new Minesweeper(this, this.painter, this.audioPlayer);
+    this.minesweeper = new Minesweeper(this, this.painter, this.audioPlayer, this.handleLose, this.handleWin);
     this.rating = new Rating();
     this.startTimers();
   }
@@ -29,86 +30,44 @@ class MinesweeperApp {
 
   addListenersOnPage = () => {
     window.addEventListener('resize', this.checkResize);
-    document.querySelector('.minesweeper-app__configs').addEventListener('click', this.clickElementToShowModalByClassHandler);
-    document.querySelector('.minesweeper-app__sound').addEventListener('click', this.clickElementToShowModalByClassHandler);
-    document.querySelector('.configs-modal__mines-count-input').addEventListener('change', this.changeMinesCountHandler);
-    document.querySelector('.configs-modal__rating-button').addEventListener('click', this.clickElementToShowModalByClassHandler);
-    document.getElementById('theme-checkbox').addEventListener('change', this.toggleAppTheme);
-    const difficultyButtons = document.querySelectorAll('.button--difficulty');
-    difficultyButtons.forEach((difficultyButton) => {
-      difficultyButton.addEventListener('click', this.changeDifficultyClickHandler);
-    });
-    const closeButtons = document.querySelectorAll('.modal__close');
-    closeButtons.forEach((closeButton) => {
-      closeButton.addEventListener('click', Builder.hideAllModals);
-    });
-    document.addEventListener('click', Builder.clickModalOverlay);
-    document.querySelector('.minesweeper-app__new-game').addEventListener('click', this.initNewGame);
-  };
-
-  buildPage = () => {
-    const main = createElement('main', ['main']);
-    const app = Builder.buildApp();
-    const modalConfigs = Builder.buildConfigsModal(this.difficulty, this.minesCount, this.theme);
-    const modalSound = Builder.buildSoundModal();
-    const modalRating = Builder.buildModalRating();
-    const modalLose = Builder.buildEndModal(MODAL_NAMES.LOSE);
-    const modalWin = Builder.buildEndModal(MODAL_NAMES.WIN);
-    const modalWinPlace = Builder.buildEndModal(MODAL_NAMES.WIN_PLACE);
-    main.append(app, modalConfigs, modalSound, modalRating, modalLose, modalWin, modalWinPlace);
-    document.body.append(main);
-    if (this.theme === APP_THEME.THEME_DARK) document.body.classList.add('theme-dark');
-    this.addListenersOnPage();
   };
 
   loadRating = (rating) => {
     if (rating) this.rating.list = rating;
   };
 
-  changeMinesCountHandler = () => {
-    const input = document.querySelector('.configs-modal__mines-count-input');
-    if (input.value < 10) input.value = 10;
-    if (input.value > 99) input.value = 99;
-    this.minesCount = input.value;
+  generateListOfCallbacks = () => {
+    const listOfCallbacks = {
+      handleChengeMinesCount: this.handleChengeMinesCount,
+      toggleAppTheme: this.toggleAppTheme,
+      changeDifficultyClickHandler: this.changeDifficultyClickHandler,
+      initNewGame: this.initNewGame,
+      getRating: this.getRating,
+      increaseMusicVolume: this.audioPlayer.increaseMusicVolume,
+      decreaseMusicVolume: this.audioPlayer.decreaseMusicVolume,
+      increaseSoundVolume: this.audioPlayer.increaseSoundVolume,
+      decreaseSoundVolume: this.audioPlayer.decreaseSoundVolume,
+    };
+    return listOfCallbacks;
+  };
+
+  getRating = () => this.rating.list;
+
+  handleChengeMinesCount = (newMinesCount) => {
+    this.minesCount = newMinesCount;
     this.initNewGame();
   };
 
-  toggleAppTheme = () => {
-    const checkbox = document.getElementById('theme-checkbox');
-    if (checkbox.checked) {
-      document.body.classList.add('theme-dark');
-      this.theme = APP_THEME.THEME_DARK;
-    } else {
-      document.body.classList.remove('theme-dark');
-      this.theme = APP_THEME.THEME_LIGHT;
-    }
+  toggleAppTheme = (theme) => {
+    this.theme = theme;
     this.painter.theme = this.theme;
     this.painter.drawGrid(this.minesweeper.grid);
   };
 
-  changeDifficultyClickHandler = (event) => {
-    Builder.deactivateAllDifficulstButtons();
-    const clickedButton = event.target.closest('.button');
-    clickedButton.classList.add('button--active');
-    this.difficulty = clickedButton.id.slice(11);
-    document.querySelector('.configs-modal__mines-count-input').value = DIFFICULTIES[this.difficulty].mines;
+  changeDifficultyClickHandler = (newDifficulty) => {
+    this.difficulty = newDifficulty;
     this.minesCount = DIFFICULTIES[this.difficulty].mines;
     this.initNewGame();
-  };
-
-  getModalIdFromClassList = (classList) => {
-    let modalClass = '';
-    classList.forEach((cls) => {
-      if (cls.indexOf('-modal-show') > 0) modalClass = cls.slice(0, -5);
-    });
-    return modalClass;
-  };
-
-  clickElementToShowModalByClassHandler = (event) => {
-    const { classList } = event.target.closest('.modal-show');
-    const modalId = this.getModalIdFromClassList(classList);
-    if (modalId === MODAL_NAMES.RATING) Builder.updateRatingModal(this.rating.list);
-    Builder.showModalById(modalId);
   };
 
   handleWin = () => {
@@ -125,18 +84,20 @@ class MinesweeperApp {
       Builder.updateEndModal(MODAL_NAMES.WIN_PLACE, gameResult.time, this.rating.getBestTime(), place);
       Builder.showModalById(MODAL_NAMES.WIN_PLACE);
     }
+    this.audioPlayer.sounds.win.play();
   };
 
   handleLose = () => {
     Builder.updateEndModal(MODAL_NAMES.LOSE, this.timerPlayTime, this.rating.getBestTime());
     Builder.showModalById(MODAL_NAMES.LOSE);
+    this.audioPlayer.sounds.lose.play();
   };
 
   loadData = async () => {
     await this.painter.loadAllSVGImages();
   };
 
-  calculateCellSize = (rows, columns) => {
+  calculateCellSize = (columns) => {
     let cellSize = 100;
     let calcCellSize = null;
     let windowWidth = document.documentElement.clientWidth;
@@ -150,7 +111,7 @@ class MinesweeperApp {
   };
 
   checkResize = () => {
-    const cellSize = this.calculateCellSize(this.minesweeper.rows, this.minesweeper.columns);
+    const cellSize = this.calculateCellSize(this.minesweeper.columns);
     if (cellSize === this.minesweeper.cellSize) return;
     this.painter.initGrid(
       cellSize,
@@ -174,11 +135,10 @@ class MinesweeperApp {
     }
     const { rows, columns } = DIFFICULTIES[this.difficulty];
     this.minesweeper.initGame(rows, columns, this.minesCount, grid, clicksCount);
-    const cellSize = this.calculateCellSize(rows, columns);
+    const cellSize = this.calculateCellSize(columns);
     this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, this.theme);
     this.painter.drawGrid(this.minesweeper.grid);
     this.timerPlayTime = time;
-
     Builder.updateGameTime(this.timerPlayTime);
   };
 
@@ -200,8 +160,8 @@ class MinesweeperApp {
     saveData.appConfigs.difficulty = this.difficulty;
     saveData.appConfigs.minesCount = this.minesCount;
     saveData.appConfigs.theme = this.theme;
-    saveData.appConfigs.soundVolume = 50;
-    saveData.appConfigs.musicVolume = 50;
+    saveData.appConfigs.soundVolume = this.audioPlayer.sounds.win.volume;
+    saveData.appConfigs.musicVolume = this.audioPlayer.music.volume;
     saveData.game = {};
     saveData.game.state = this.minesweeper.state;
     if (this.minesweeper.state === GAME_STATE.ACTIVE) {
