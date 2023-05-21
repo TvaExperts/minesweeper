@@ -9,7 +9,7 @@ import wilgelm from '../../assets/sounds/wilgelm.wav';
 class AudioPlayer {
   constructor(soundVolume, musicVolume) {
     this.music = new Audio(loop);
-
+    this.music.muted = true;
     this.sounds = {};
     this.sounds.win = new Audio(win);
     this.sounds.collapse = new Audio(collapse);
@@ -31,11 +31,13 @@ class AudioPlayer {
   };
 
   increaseMusicVolume = () => {
+    this.music.muted = false;
     if (this.music.volume + 0.2 <= 1) this.music.volume += 0.2;
     return this.music.volume;
   };
 
   decreaseMusicVolume = () => {
+    this.music.muted = false;
     if (this.music.volume - 0.2 >= 0) this.music.volume -= 0.2;
     return this.music.volume;
   };

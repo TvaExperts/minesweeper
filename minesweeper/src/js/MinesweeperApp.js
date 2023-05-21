@@ -61,7 +61,7 @@ class MinesweeperApp {
   toggleAppTheme = (theme) => {
     this.theme = theme;
     this.painter.theme = this.theme;
-    this.painter.drawGrid(this.minesweeper.grid);
+    this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
   };
 
   changeDifficultyClickHandler = (newDifficulty) => {
@@ -75,20 +75,20 @@ class MinesweeperApp {
     gameResult.time = this.timerPlayTime;
     const date = new Date();
     gameResult.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
-    gameResult.clicks = this.minesweeper.clicksCount;
+    gameResult.clicksCount = this.minesweeper.clicksCount;
     const place = this.rating.push(gameResult);
     if (place < 0) {
-      Builder.updateEndModal(MODAL_NAMES.WIN, gameResult.time, this.rating.getBestTime());
+      Builder.updateEndModal(MODAL_NAMES.WIN, gameResult.time, gameResult.clicksCount, this.rating.getBestTime());
       Builder.showModalById(MODAL_NAMES.WIN);
     } else {
-      Builder.updateEndModal(MODAL_NAMES.WIN_PLACE, gameResult.time, this.rating.getBestTime(), place);
+      Builder.updateEndModal(MODAL_NAMES.WIN_PLACE, gameResult.time, gameResult.clicksCount, this.rating.getBestTime(), place);
       Builder.showModalById(MODAL_NAMES.WIN_PLACE);
     }
     this.audioPlayer.sounds.win.play();
   };
 
   handleLose = () => {
-    Builder.updateEndModal(MODAL_NAMES.LOSE, this.timerPlayTime, this.rating.getBestTime());
+    Builder.updateEndModal(MODAL_NAMES.LOSE, this.timerPlayTime, this.minesweeper.clicksCount, this.rating.getBestTime());
     Builder.showModalById(MODAL_NAMES.LOSE);
     this.audioPlayer.sounds.lose.play();
   };
@@ -121,7 +121,7 @@ class MinesweeperApp {
       this.minesweeper.columns,
       this.theme
     );
-    this.painter.drawGrid(this.minesweeper.grid);
+    this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
   };
 
   initNewGame = (game) => {
@@ -137,7 +137,7 @@ class MinesweeperApp {
     this.minesweeper.initGame(rows, columns, this.minesCount, grid, clicksCount);
     const cellSize = this.calculateCellSize(columns);
     this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, this.theme);
-    this.painter.drawGrid(this.minesweeper.grid);
+    this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
     this.timerPlayTime = time;
     Builder.updateGameTime(this.timerPlayTime);
   };

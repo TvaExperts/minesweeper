@@ -121,17 +121,30 @@
   }
 }
 
-.end-modal__time-block {
+.end-modal__statistic-block {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 140px;
+
+  @include media-one {
+    min-width: 120px;
+  }
+
+  @include media-three {
+    min-width: 95px;
+  }
 }
 
-.end-modal__time-icon {
+.end-modal__statistic-icon {
   width: 100px;
   height: 100px;
   background-size: cover;
-  background-image: url('../assets/svg/pop-up/time.svg');
+  background-image: url('../assets/svg/pop-up/time-light.svg');
+
+  .theme-dark & {
+    background-image: url('../assets/svg/pop-up/time-dark.svg');
+  }
 
   @include media-one {
     width: 80px;
@@ -143,12 +156,24 @@
     height: 60px;
   }
 
-  .win-modal__time-block--best & {
-    background-image: url('../assets/svg/pop-up/best-time.svg');
+  .end-modal__statistic-block--clicks & {
+    background-image: url('../assets/svg/pop-up/hand-light.svg');
+
+    .theme-dark & {
+      background-image: url('../assets/svg/pop-up/hand-dark.svg');
+    }
+  }
+
+  .end-modal__statistic-block--best-time & {
+    background-image: url('../assets/svg/pop-up/best-time-light.svg');
+
+    .theme-dark & {
+      background-image: url('../assets/svg/pop-up/best-time-dark.svg');
+    }
   }
 }
 
-.end-modal__time-text {
+.end-modal__statistic-text {
   font-size: 16px;
   line-height: 19px;
   color: #b47c7c;

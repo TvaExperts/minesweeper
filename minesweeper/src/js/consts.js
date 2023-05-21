@@ -4,7 +4,7 @@ const BORDER_WIDTHS = {
     borderSize: 65,
   },
   TABLET: {
-    maxWidth: 850,
+    maxWidth: 900,
     borderSize: 51,
   },
   MOBILE: {
@@ -61,8 +61,8 @@ const DEFAULT_APP_CONFIGS = {
     difficulty: 'easy',
     minesCount: 10,
     theme: APP_THEME.THEME_LIGHT,
-    soundVolume: 50,
-    musicVolume: 50,
+    soundVolume: 0.6,
+    musicVolume: 0.6,
   },
 
   game: {

@@ -6,6 +6,8 @@ class Builder {
     this.appCallbacks = appCallbacks;
   }
 
+  // ====================== buildPage
+
   buildPage = (difficulty, minesCount, theme, soundVolume, musicVolume) => {
     const main = createElement('main', ['main']);
     const app = this.buildApp();
@@ -34,6 +36,7 @@ class Builder {
     const header = createElement('div', ['minesweeper-app__header']);
     const sound = createElement('div', ['minesweeper-app__sound', 'modal-show', 'sound-modal-show']);
     sound.addEventListener('click', this.clickElementToShowModalByClassHandler);
+    const headerStatistics = createElement('div', ['minesweeper-app__header-statistics']);
     const flags = createElement('div', ['minesweeper-app__flags']);
     const flagImg = createElement('div', ['minesweeper-app__flag-img']);
     const flagCount = createElement('div', ['minesweeper-app__flags-count']);
@@ -48,11 +51,12 @@ class Builder {
     const gameClicksIcon = createElement('div', ['minesweeper-app__game-clicks-icon']);
     const gameClicksValue = createElement('div', ['minesweeper-app__game-clicks-value']);
     gameClicks.append(gameClicksIcon, gameClicksValue);
+    headerStatistics.append(flags, gameTime, gameClicks);
     const newGame = createElement('div', ['minesweeper-app__new-game']);
     newGame.addEventListener('click', this.appCallbacks.initNewGame);
     const configs = createElement('div', ['minesweeper-app__configs', 'modal-show', 'configs-modal-show']);
     configs.addEventListener('click', this.clickElementToShowModalByClassHandler);
-    header.append(sound, flags, gameTime, gameClicks, newGame, configs);
+    header.append(sound, headerStatistics, newGame, configs);
     return header;
   };
 
@@ -82,35 +86,60 @@ class Builder {
     return modalClass;
   };
 
-  static updateRatingModal = (results) => {
-    const modal = document.getElementById(MODAL_NAMES.RATING);
-    const resultsList = modal.querySelector('.rating-modal__list');
-    resultsList.innerHTML = '';
-    for (let i = 0; i < 10; i += 1) {
-      const li = createElement('li', ['rating-modal__list-item']);
-      const place = createElement('div', ['rating-modal__item-place'], i + 1);
-      const name = createElement('p', ['rating-modal__item-name']);
-      const clicks = createElement('p', ['rating-modal__item-clicks']);
-      const time = createElement('p', ['rating-modal__item-time']);
-      if (results[i]) {
-        name.innerHTML = results[i].date;
-        clicks.innerHTML = results[i].clicks;
-        time.innerHTML = showTimeInMinutes(results[i].time);
-      } else {
-        name.innerHTML = '--------';
-        clicks.innerHTML = '---';
-        time.innerHTML = '--:--';
-      }
-      li.append(place, name, clicks, time);
-      resultsList.append(li);
-    }
-  };
-
   static showModalById = (modalId) => {
     Builder.hideAllModals();
     const modal = document.getElementById(modalId);
     modal.classList.add('open');
   };
+
+  // ====================== work with app
+
+  static updateGameTime = (timeInSec) => {
+    const timerElement = document.querySelector('.minesweeper-app__game-time-value');
+    timerElement.innerHTML = showTimeInMinutes(timeInSec);
+  };
+
+  static updateFlagsCounter = (flagsCount, minesLeft) => {
+    const minesLeftBlock = document.querySelector('.minesweeper-app__mines-left-count');
+    minesLeftBlock.innerHTML = `/${minesLeft}`;
+    const flagCount = document.querySelector('.minesweeper-app__flags-count');
+    flagCount.innerHTML = flagsCount;
+    flagCount.append(minesLeftBlock);
+  };
+
+  static updateClicksCounter = (clicksCount) => {
+    const clickCountBlock = document.querySelector('.minesweeper-app__game-clicks-value');
+    clickCountBlock.innerHTML = clicksCount;
+  };
+
+  // ====================== Modals
+
+  static buildModalWrapper = (innerElements, titleText) => {
+    const modalWrapper = createElement('div', ['modal__wrapper']);
+    const modalContainer = createElement('div', ['modal__container']);
+    const modalTitle = createElement('div', ['modal__title']);
+    const modalTitleText = createElement('div', ['modal__title-text'], titleText);
+    modalTitle.append(modalTitleText);
+    const modalClose = createElement('div', ['modal__close']);
+    modalClose.addEventListener('click', Builder.hideAllModals);
+    modalContainer.append(modalTitle, ...innerElements, modalClose);
+    const frame = Builder.buildFrame([modalContainer], true);
+    modalWrapper.append(frame);
+    return modalWrapper;
+  };
+
+  static hideAllModals = () => {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach((modal) => {
+      modal.classList.remove('open');
+    });
+  };
+
+  static clickModalOverlay = (event) => {
+    if (event.target.classList.contains('open')) this.hideAllModals();
+  };
+
+  // ====================== Sound Modal
 
   buildSoundModal = (soundVolume, musicVolume) => {
     const modal = createElement('div', ['modal']);
@@ -166,35 +195,133 @@ class Builder {
     return volumeBar;
   };
 
-  static buildModalWrapper = (innerElements, titleText) => {
-    const modalWrapper = createElement('div', ['modal__wrapper']);
-    const modalContainer = createElement('div', ['modal__container']);
-    const modalTitle = createElement('div', ['modal__title']);
-    const modalTitleText = createElement('div', ['modal__title-text'], titleText);
-    modalTitle.append(modalTitleText);
-    const modalClose = createElement('div', ['modal__close']);
-    modalClose.addEventListener('click', Builder.hideAllModals);
-    modalContainer.append(modalTitle, ...innerElements, modalClose);
-    const frame = Builder.buildFrame([modalContainer], true);
-    modalWrapper.append(frame);
-    return modalWrapper;
+  // ====================== Rating Modal
+
+  static buildModalRating = () => {
+    const modal = createElement('div', ['modal']);
+    modal.id = MODAL_NAMES.RATING;
+    const modalContent = createElement('div', ['rating-modal']);
+    const header = createElement('div', ['rating-modal__header']);
+    header.append(createElement('p', ['rating-modal__header-item'], ' Последние 10 игр'));
+    header.append(createElement('p', ['rating-modal__header-item'], 'клики'));
+    header.append(createElement('p', ['rating-modal__header-item'], 'время'));
+    const resultsList = createElement('ul', ['rating-modal__list']);
+    modalContent.append(header, resultsList);
+    const wrapper = Builder.buildModalWrapper([modalContent], 'рейтинг');
+    modal.append(wrapper);
+    return modal;
   };
 
-  static hideAllModals = () => {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach((modal) => {
-      modal.classList.remove('open');
-    });
+  static updateRatingModal = (results) => {
+    const modal = document.getElementById(MODAL_NAMES.RATING);
+    const resultsList = modal.querySelector('.rating-modal__list');
+    resultsList.innerHTML = '';
+    for (let i = 0; i < 10; i += 1) {
+      const li = createElement('li', ['rating-modal__list-item']);
+      const place = createElement('div', ['rating-modal__item-place'], i + 1);
+      const name = createElement('p', ['rating-modal__item-name']);
+      const clicks = createElement('p', ['rating-modal__item-clicks']);
+      const time = createElement('p', ['rating-modal__item-time']);
+      if (results[i]) {
+        name.innerHTML = results[i].date;
+        clicks.innerHTML = results[i].clicksCount;
+        time.innerHTML = showTimeInMinutes(results[i].time);
+      } else {
+        name.innerHTML = '--------';
+        clicks.innerHTML = '---';
+        time.innerHTML = '--:--';
+      }
+      li.append(place, name, clicks, time);
+      resultsList.append(li);
+    }
   };
 
-  // *******************************************
+  // ====================== End Modal
 
-  static buildButtonDifficulty = (difficulty, text) => {
-    const button = createElement('div', ['configs-modal__difficulty-button', 'button', 'button--difficulty']);
-    button.id = `difficulty-${difficulty}`;
-    const buttonText = createElement('div', ['button__text'], text);
-    button.append(buttonText);
-    return button;
+  static buildEndModal = (modalName) => {
+    const modal = createElement('div', ['modal']);
+    modal.id = modalName;
+    const modalContent = Builder.buildEndModalContent(modalName);
+    const titleText = modalName === MODAL_NAMES.LOSE ? 'поражение' : 'победа';
+    const wrapper = Builder.buildModalWrapper([modalContent], titleText);
+    modal.append(wrapper);
+    return modal;
+  };
+
+  static buildEndModalContent = (modalName) => {
+    const modalContent = createElement('div', ['end-modal']);
+    if (modalName === MODAL_NAMES.LOSE) modalContent.classList.add('end-modal--lose');
+    const header = Builder.buildEndModalHeader(modalName);
+    const statistics = Builder.buildEndModalStatistics();
+    modalContent.append(header, statistics);
+    return modalContent;
+  };
+
+  static buildEndModalHeader = (modalName) => {
+    const header = createElement('div', ['end-modal__header']);
+    const headerImg = createElement('div', ['end-modal__header-img']);
+    switch (modalName) {
+      case MODAL_NAMES.LOSE:
+        header.innerHTML = 'Вы пройграли.<br>Попробуйте еще раз';
+        break;
+      case MODAL_NAMES.WIN:
+        header.innerHTML = 'вы победили!';
+        break;
+      case MODAL_NAMES.WIN_PLACE:
+        header.append(createElement('p', ['end-modal__greeting'], 'вы заняли'));
+        header.append(createElement('p', ['end-modal__place'], 'n место!'));
+        break;
+      default:
+    }
+    header.prepend(headerImg);
+    return header;
+  };
+
+  static buildEndModalStatistics = () => {
+    const statistics = createElement('div', ['end-modal__statistics']);
+    const timeBlock = createElement('div', ['end-modal__statistic-block']);
+    const timeBlockImg = createElement('div', ['end-modal__statistic-icon']);
+    const timeBlockValue = createElement('div', ['end-modal__statistic-value'], '--:--');
+    const timeBlockText = createElement('div', ['end-modal__statistic-text'], 'ваше время');
+    timeBlock.append(timeBlockImg, timeBlockValue, timeBlockText);
+    const clicksBlock = createElement('div', ['end-modal__statistic-block', 'end-modal__statistic-block--clicks']);
+    const clicksBlockImg = createElement('div', ['end-modal__statistic-icon']);
+    const clicksBlockValue = createElement('div', ['end-modal__statistic-value'], '--');
+    const clicksBlockText = createElement('div', ['end-modal__statistic-text'], 'кол-во кликов');
+    clicksBlock.append(clicksBlockImg, clicksBlockValue, clicksBlockText);
+    const timeBestBlock = createElement('div', ['end-modal__statistic-block', 'end-modal__statistic-block--best-time']);
+    const timeBestBlockImg = createElement('div', ['end-modal__statistic-icon']);
+    const timeBestBlockValue = createElement('div', ['end-modal__statistic-value'], '--:--');
+    const timeBestBlockText = createElement('div', ['end-modal__statistic-text'], 'лучшее время');
+    timeBestBlock.append(timeBestBlockImg, timeBestBlockValue, timeBestBlockText);
+    statistics.append(timeBlock, clicksBlock, timeBestBlock);
+    return statistics;
+  };
+
+  static updateEndModal = (modalName, time, clicksCount, bestTime, place) => {
+    const modal = document.getElementById(modalName);
+    if (place) modal.querySelector('.end-modal__place').innerHTML = `${place} место!`;
+    modal.querySelector('.end-modal__statistic-value').innerHTML = showTimeInMinutes(time);
+    const clicksBlock = modal.querySelector('.end-modal__statistic-block--clicks');
+    clicksBlock.querySelector('.end-modal__statistic-value').innerHTML = clicksCount;
+    const bestBlock = modal.querySelector('.end-modal__statistic-block--best-time');
+    bestBlock.querySelector('.end-modal__statistic-value').innerHTML = showTimeInMinutes(bestTime);
+  };
+
+  // ====================== Configs Modal
+
+  buildConfigsModal = (difficulty, minesCount, theme) => {
+    const modal = createElement('div', ['modal']);
+    modal.id = MODAL_NAMES.CONFIGS;
+    const difficultyBlock = this.buildDifficultyBlock(difficulty, minesCount);
+    const themeBlock = this.buildThemeBlock(theme);
+    const ratingButton = createElement('div', ['configs-modal__rating-button', 'button', 'modal-show', 'rating-modal-show']);
+    const buttonText = createElement('div', ['button__text'], 'рейтинг игроков');
+    ratingButton.append(buttonText);
+    ratingButton.addEventListener('click', this.clickElementToShowModalByClassHandler);
+    const wrapper = Builder.buildModalWrapper([difficultyBlock, themeBlock, ratingButton], 'настройки');
+    modal.append(wrapper);
+    return modal;
   };
 
   buildDifficultyBlock = (difficulty, mines) => {
@@ -230,6 +357,35 @@ class Builder {
     return difficultyBlock;
   };
 
+  static buildButtonDifficulty = (difficulty, text) => {
+    const button = createElement('div', ['configs-modal__difficulty-button', 'button', 'button--difficulty']);
+    button.id = `difficulty-${difficulty}`;
+    const buttonText = createElement('div', ['button__text'], text);
+    button.append(buttonText);
+    return button;
+  };
+
+  changeDifficultyClickHandler = (event) => {
+    Builder.deactivateAllDifficulstButtons();
+    const clickedButton = event.target.closest('.button');
+    clickedButton.classList.add('button--active');
+    const newDifficulty = clickedButton.id.slice(11);
+    document.querySelector('.configs-modal__mines-count-input').value = DIFFICULTIES[newDifficulty].mines;
+    this.appCallbacks.changeDifficultyClickHandler(newDifficulty);
+  };
+
+  static deactivateAllDifficulstButtons = () => {
+    const buttons = document.querySelectorAll('.button--difficulty');
+    buttons.forEach((button) => button.classList.remove('button--active'));
+  };
+
+  changeMinesCountHandler = () => {
+    const input = document.querySelector('.configs-modal__mines-count-input');
+    if (input.value < 10) input.value = 10;
+    if (input.value > 99) input.value = 99;
+    this.appCallbacks.handleChengeMinesCount(input.value);
+  };
+
   buildThemeBlock = (theme) => {
     const themeBlock = createElement('div', ['configs-modal__theme-block']);
     const themeImg = createElement('div', ['configs-modal__theme-img']);
@@ -246,20 +402,6 @@ class Builder {
     return themeBlock;
   };
 
-  buildConfigsModal = (difficulty, minesCount, theme) => {
-    const modal = createElement('div', ['modal']);
-    modal.id = MODAL_NAMES.CONFIGS;
-    const difficultyBlock = this.buildDifficultyBlock(difficulty, minesCount);
-    const themeBlock = this.buildThemeBlock(theme);
-    const ratingButton = createElement('div', ['configs-modal__rating-button', 'button', 'modal-show', 'rating-modal-show']);
-    const buttonText = createElement('div', ['button__text'], 'рейтинг игроков');
-    ratingButton.append(buttonText);
-    ratingButton.addEventListener('click', this.clickElementToShowModalByClassHandler);
-    const wrapper = Builder.buildModalWrapper([difficultyBlock, themeBlock, ratingButton], 'настройки');
-    modal.append(wrapper);
-    return modal;
-  };
-
   toggleAppTheme = () => {
     const checkbox = document.getElementById('theme-checkbox');
     let theme;
@@ -271,127 +413,6 @@ class Builder {
       theme = APP_THEME.THEME_LIGHT;
     }
     this.appCallbacks.toggleAppTheme(theme);
-  };
-
-  static buildModalRating = () => {
-    const modal = createElement('div', ['modal']);
-    modal.id = MODAL_NAMES.RATING;
-    const modalContent = createElement('div', ['rating-modal']);
-    const header = createElement('div', ['rating-modal__header']);
-    header.append(createElement('p', ['rating-modal__header-item'], ' Последние 10 игр'));
-    header.append(createElement('p', ['rating-modal__header-item'], 'клики'));
-    header.append(createElement('p', ['rating-modal__header-item'], 'время'));
-    const resultsList = createElement('ul', ['rating-modal__list']);
-    modalContent.append(header, resultsList);
-    const wrapper = Builder.buildModalWrapper([modalContent], 'рейтинг');
-    modal.append(wrapper);
-    return modal;
-  };
-
-  static buildEndModalHeader = (modalName) => {
-    const header = createElement('div', ['end-modal__header']);
-    const headerImg = createElement('div', ['end-modal__header-img']);
-    switch (modalName) {
-      case MODAL_NAMES.LOSE:
-        header.innerHTML = 'Вы пройграли.<br>Попробуйте еще раз';
-        break;
-      case MODAL_NAMES.WIN:
-        header.innerHTML = 'вы победили!';
-        break;
-      case MODAL_NAMES.WIN_PLACE:
-        header.append(createElement('p', ['end-modal__greeting'], 'вы заняли'));
-        header.append(createElement('p', ['end-modal__place'], 'n место!'));
-        break;
-      default:
-    }
-    header.prepend(headerImg);
-    return header;
-  };
-
-  static buildEndModalStatistics = () => {
-    const statistics = createElement('div', ['end-modal__statistics']);
-    const timeBlock = createElement('div', ['end-modal__time-block']);
-    const timeBlockImg = createElement('div', ['end-modal__time-icon']);
-    const timeBlockValue = createElement('div', ['end-modal__time-value'], '--:--');
-    const timeBlockText = createElement('div', ['end-modal__time-text'], 'ваше время');
-    timeBlock.append(timeBlockImg, timeBlockValue, timeBlockText);
-    const timeBestBlock = createElement('div', ['end-modal__time-block', 'win-modal__time-block--best']);
-    const timeBestBlockImg = createElement('div', ['end-modal__time-icon']);
-    const timeBestBlockValue = createElement('div', ['end-modal__time-value'], '--:--');
-    const timeBestBlockText = createElement('div', ['end-modal__time-text'], 'лучшее время');
-    timeBestBlock.append(timeBestBlockImg, timeBestBlockValue, timeBestBlockText);
-    statistics.append(timeBlock, timeBestBlock);
-    return statistics;
-  };
-
-  changeDifficultyClickHandler = (event) => {
-    Builder.deactivateAllDifficulstButtons();
-    const clickedButton = event.target.closest('.button');
-    clickedButton.classList.add('button--active');
-    const newDifficulty = clickedButton.id.slice(11);
-    document.querySelector('.configs-modal__mines-count-input').value = DIFFICULTIES[newDifficulty].mines;
-    this.appCallbacks.changeDifficultyClickHandler(newDifficulty);
-  };
-
-  static buildEndModalContent = (modalName) => {
-    const modalContent = createElement('div', ['end-modal']);
-    if (modalName === MODAL_NAMES.LOSE) modalContent.classList.add('end-modal--lose');
-    const header = Builder.buildEndModalHeader(modalName);
-    const statistics = Builder.buildEndModalStatistics();
-    modalContent.append(header, statistics);
-    return modalContent;
-  };
-
-  static buildEndModal = (modalName) => {
-    const modal = createElement('div', ['modal']);
-    modal.id = modalName;
-    const modalContent = Builder.buildEndModalContent(modalName);
-    const titleText = modalName === MODAL_NAMES.LOSE ? 'поражение' : 'победа';
-    const wrapper = Builder.buildModalWrapper([modalContent], titleText);
-    modal.append(wrapper);
-    return modal;
-  };
-
-  static updateEndModal = (modalName, time, bestTime, place) => {
-    const modal = document.getElementById(modalName);
-    if (place) modal.querySelector('.end-modal__place').innerHTML = `${place} место!`;
-    modal.querySelector('.end-modal__time-value').innerHTML = showTimeInMinutes(time);
-    const bestBlock = modal.querySelector('.win-modal__time-block--best');
-    bestBlock.querySelector('.end-modal__time-value').innerHTML = showTimeInMinutes(bestTime);
-  };
-
-  static updateGameTime = (timeInSec) => {
-    const timerElement = document.querySelector('.minesweeper-app__game-time-value');
-    timerElement.innerHTML = showTimeInMinutes(timeInSec);
-  };
-
-  static updateFlagsCounter = (flagsCount, minesLeft) => {
-    const minesLeftBlock = document.querySelector('.minesweeper-app__mines-left-count');
-    minesLeftBlock.innerHTML = `/${minesLeft}`;
-    const flagCount = document.querySelector('.minesweeper-app__flags-count');
-    flagCount.innerHTML = flagsCount;
-    flagCount.append(minesLeftBlock);
-  };
-
-  static updateClicksCounter = (clicksCount) => {
-    const clickCountBlock = document.querySelector('.minesweeper-app__game-clicks-value');
-    clickCountBlock.innerHTML = clicksCount;
-  };
-
-  static clickModalOverlay = (event) => {
-    if (event.target.classList.contains('open')) this.hideAllModals();
-  };
-
-  static deactivateAllDifficulstButtons = () => {
-    const buttons = document.querySelectorAll('.button--difficulty');
-    buttons.forEach((button) => button.classList.remove('button--active'));
-  };
-
-  changeMinesCountHandler = () => {
-    const input = document.querySelector('.configs-modal__mines-count-input');
-    if (input.value < 10) input.value = 10;
-    if (input.value > 99) input.value = 99;
-    this.appCallbacks.handleChengeMinesCount(input.value);
   };
 }
 

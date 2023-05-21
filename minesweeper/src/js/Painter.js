@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable max-len */
 
-import { WATERSHED_COLOR_LIGHT_THEME, WATERSHED_COLOR_DARK_THEME } from './consts';
+import { WATERSHED_COLOR_LIGHT_THEME, WATERSHED_COLOR_DARK_THEME, GAME_STATE } from './consts';
 import SVG_IMAGES from './SVGs';
 
 class Painter {
@@ -104,12 +104,22 @@ class Painter {
     }
   };
 
-  drawGrid = (grid) => {
+  drawGrid = (grid, gameState = GAME_STATE.ACTIVE) => {
     for (let row = 0; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         this.drawCellBackground(grid[row][column]);
         if (grid[row][column].hasFlag) this.drawFlag(grid[row][column]);
         if (grid[row][column].isOpened && grid[row][column].danger) this.drawDigit(grid[row][column]);
+        if (gameState !== GAME_STATE.ACTIVE) {
+          if (grid[row][column].hasMine) {
+            if (!grid[row][column].hasFlag) {
+              if (grid[row][column].isOpened) {
+                this.ctx.drawImage(this.images[this.theme].CELL_RED, column * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize);
+              }
+              this.ctx.drawImage(this.images[this.theme].MINE, column * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize);
+            }
+          }
+        }
       }
     }
     this.drawBorderBetweenOpenAndHidenCells(grid);

@@ -74,8 +74,9 @@ class Minesweeper {
       Builder.updateClicksCounter(this.clicksCount);
       this.clickAllHidenNeighbors(row, column);
     }
-    if (this.state !== GAME_STATE.GAME_OVER) this.painter.drawGrid(this.grid);
-    if (this.state === GAME_STATE.WINNER) this.painter.drawMines(this.grid, row, column);
+    this.painter.drawGrid(this.grid, this.state);
+    /* if (this.state !== GAME_STATE.GAME_OVER) this.painter.drawGrid(this.grid);
+    if (this.state === GAME_STATE.WINNER) this.painter.drawMines(this.grid, row, column); */
   };
 
   getMarkedNeighborsCount = (row, column) => {
@@ -121,19 +122,18 @@ class Minesweeper {
     if (this.grid[row][column].isOpened) return;
     if (this.grid[row][column].hasFlag) return;
     if (this.state === GAME_STATE.WINNER) return;
+    this.grid[row][column].isOpened = true;
+    this.openedCellsCount += 1;
     if (this.grid[row][column].hasMine) {
       this.state = GAME_STATE.GAME_OVER;
-      this.painter.drawMines(this.grid, row, column);
+      this.painter.drawGrid(this.grid, this.state);
       this.loseHandler();
       return;
     }
-    this.grid[row][column].isOpened = true;
-    this.openedCellsCount += 1;
     if (!isRecursive) this.audioPlayer.sounds.dig.play();
     if (this.isWin()) {
       this.state = GAME_STATE.WINNER;
-      this.painter.drawGrid(this.grid);
-      this.painter.drawMines(this.grid);
+      this.painter.drawGrid(this.grid, this.state);
       this.winHandler();
       return;
     }
@@ -214,7 +214,6 @@ class Minesweeper {
     let minesLeft = this.mines - this.flagCount;
     if (minesLeft < 0) minesLeft = 0;
     Builder.updateFlagsCounter(this.flagCount, minesLeft);
-
     this.painter.drawGrid(this.grid);
   };
 
