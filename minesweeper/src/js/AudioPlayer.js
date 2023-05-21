@@ -9,7 +9,8 @@ import wilgelm from '../../assets/sounds/wilgelm.wav';
 class AudioPlayer {
   constructor(soundVolume, musicVolume) {
     this.music = new Audio(loop);
-    this.music.muted = true;
+    this.music.loop = true;
+    this.music.volume = musicVolume;
     this.sounds = {};
     this.sounds.win = new Audio(win);
     this.sounds.collapse = new Audio(collapse);
@@ -17,7 +18,6 @@ class AudioPlayer {
     this.sounds.flag = new Audio(flag);
     this.sounds.unflag = new Audio(unflag);
     this.sounds.lose = new Audio(wilgelm);
-    this.music.volume = musicVolume;
     this.setNewSoundVolume(soundVolume);
   }
 
@@ -31,29 +31,35 @@ class AudioPlayer {
   };
 
   increaseMusicVolume = () => {
-    this.music.muted = false;
-    if (this.music.volume + 0.2 <= 1) this.music.volume += 0.2;
-    return this.music.volume;
+    let newVolume = this.music.volume + 0.2;
+    if (newVolume > 1) newVolume = 1;
+    this.music.volume = newVolume;
+    return newVolume;
   };
 
   decreaseMusicVolume = () => {
-    this.music.muted = false;
-    if (this.music.volume - 0.2 >= 0) this.music.volume -= 0.2;
-    return this.music.volume;
+    let newVolume = this.music.volume - 0.2;
+    if (newVolume < 0) newVolume = 0;
+    this.music.volume = newVolume;
+    return newVolume;
   };
 
   increaseSoundVolume = () => {
-    if (this.sounds.win.volume + 0.2 <= 1) this.setNewSoundVolume(this.sounds.win.volume + 0.2);
-    return this.sounds.win.volume;
+    let newVolume = this.sounds.win.volume + 0.2;
+    if (newVolume > 1) newVolume = 1;
+    this.setNewSoundVolume(newVolume);
+    return newVolume;
   };
 
   decreaseSoundVolume = () => {
-    if (this.sounds.win.volume - 0.2 >= 0) this.setNewSoundVolume(this.sounds.win.volume - 0.2);
-    return this.sounds.win.volume;
+    let newVolume = this.sounds.win.volume - 0.2;
+    if (newVolume < 0) newVolume = 0;
+    this.setNewSoundVolume(newVolume);
+    return newVolume;
   };
 
   playMusic = () => {
-    this.music.loop = true;
+    if (!this.music.paused) return;
     this.music.play();
   };
 }
