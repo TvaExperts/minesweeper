@@ -1,7 +1,11 @@
 .volume-bar {
-  padding: 0 27px;
   width: 100%;
+  padding: 0 27px;
   text-align: center;
+
+  @include media-one {
+    padding: 0 20px;
+  }
 }
 
 .volume-bar__title {
@@ -10,16 +14,37 @@
 
 .volume-bar__controls {
   display: flex;
-  height: 52px;
+  align-items: center;
   column-gap: 17px;
+  height: 52px;
+
+  @include media-one {
+    column-gap: 17px;
+    height: 44px;
+  }
+
+  @include media-three {
+    column-gap: 17px;
+    height: 30px;
+  }
 }
 
 .volume-bar__scale {
   flex-grow: 1;
+  width: 336px;
   padding: 2px 8px 8px;
   background-color: #e28418;
   border-radius: 200px;
-  width: 336px;
+
+  @include media-one {
+    width: 240px;
+    padding: 2px 6px 6px;
+  }
+
+  @include media-three {
+    width: 180px;
+    padding: 2px 4px 4px;
+  }
 
   .theme-dark & {
     background: #3d3e4a;
@@ -27,10 +52,18 @@
 }
 
 .volume-bar__scale-border {
-  background: #ffc284;
-  border-radius: 200px;
   height: 100%;
   padding: 10px;
+  background: #ffc284;
+  border-radius: 200px;
+
+  @include media-one {
+    padding: 8px;
+  }
+
+  @include media-three {
+    padding: 5px;
+  }
 
   .theme-dark & {
     background: #747d9d;
@@ -39,16 +72,24 @@
 
 .volume-bar__volume {
   width: 50%;
-  height: 100%;
+  height: 16px;
   background: #2cc0be;
   border-radius: 200px;
+
+  @include media-one {
+    height: 12px;
+  }
+
+  @include media-three {
+    height: 8px;
+  }
 }
 
 .volume-bar__scale-inside {
+  height: 100%;
+  padding: 3px;
   background: #653e40;
   border-radius: 200px;
-  padding: 3px;
-  height: 100%;
 
   .theme-dark & {
     background: #653e40;
@@ -59,7 +100,23 @@
   width: 46px;
   height: 46px;
   cursor: pointer;
+  background-size: cover;
   background-image: url('../assets/svg/pop-up/minus-light.svg');
+  transition: all 0.3s ease;
+
+  @include media-one {
+    width: 36px;
+    height: 36px;
+  }
+
+  @include media-three {
+    width: 30px;
+    height: 30px;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   .theme-dark & {
     background-image: url('../assets/svg/pop-up/minus-dark.svg');
@@ -70,7 +127,23 @@
   width: 46px;
   height: 46px;
   cursor: pointer;
+  background-size: cover;
   background-image: url('../assets/svg/pop-up/plus-light.svg');
+  transition: all 0.3s ease;
+
+  @include media-one {
+    width: 36px;
+    height: 36px;
+  }
+
+  @include media-three {
+    width: 30px;
+    height: 30px;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   .theme-dark & {
     background-image: url('../assets/svg/pop-up/plus-dark.svg');

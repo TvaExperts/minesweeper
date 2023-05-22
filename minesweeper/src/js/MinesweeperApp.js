@@ -13,7 +13,7 @@ import {
 class MinesweeperApp {
   constructor(appConfigs) {
     this.loadConfigsApp(appConfigs);
-    this.audioPlayer = new AudioPlayer(this.musicVolume, this.soundVolume);
+    this.audioPlayer = new AudioPlayer(this.soundVolume, this.musicVolume);
     this.builder = new Builder(this.generateListOfCallbacksForBuilder());
     this.builder.buildPage(
       this.difficulty,

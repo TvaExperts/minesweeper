@@ -42,11 +42,9 @@
 .end-modal__header-img {
   width: 180px;
   height: 120px;
-  background-image: url('../assets/svg/pop-up/cup.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   margin-bottom: 30px;
+  background-image: url('../assets/svg/pop-up/cup.svg');
+  background-size: cover;
 
   @include media-one {
     width: 150px;
@@ -77,9 +75,9 @@
 }
 
 .end-modal__greeting {
+  margin-bottom: 4px;
   font-size: 20px;
   line-height: 24px;
-  margin-bottom: 4px;
 
   @include media-one {
     font-size: 18px;
@@ -174,9 +172,9 @@
 }
 
 .end-modal__statistic-text {
+  color: #b47c7c;
   font-size: 16px;
   line-height: 19px;
-  color: #b47c7c;
 
   @include media-one {
     font-size: 14px;
@@ -194,10 +192,10 @@
 }
 
 .end-modal__time-value {
+  margin-bottom: 2px;
   font-size: 25px;
   line-height: 30px;
   color: #000000;
-  margin-bottom: 2px;
 
   @include media-one {
     font-size: 20px;

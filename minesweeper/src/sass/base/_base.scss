@@ -19,11 +19,10 @@ body {
   font-size: 36px;
   line-height: 43px;
   text-transform: uppercase;
-  color: $color_text_light_theme;
+  color: #7c2121;
   background-color: #ffe8cc;
 
   &.theme-dark {
-    color: $color_text_dark_theme;
     color: white;
     background-color: #2e3441;
   }

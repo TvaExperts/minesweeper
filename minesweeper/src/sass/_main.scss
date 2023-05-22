@@ -28,13 +28,13 @@
   color: #000000;
 
   @include media-one {
-    margin-bottom: 20px;
     column-gap: 16px;
+    margin-bottom: 20px;
   }
 
   @include media-three {
-    margin-bottom: 12px;
     column-gap: 8px;
+    margin-bottom: 12px;
   }
 
   .theme-dark & {
@@ -43,11 +43,11 @@
 }
 
 .minesweeper-app__sound {
-  background-image: url('../assets/svg/sound-light.svg');
   width: 80px;
   height: 80px;
   border-radius: 200px;
   background-size: cover;
+  background-image: url('../assets/svg/sound-light.svg');
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -87,10 +87,10 @@
 }
 
 .minesweeper-app__flag-img {
-  background-image: url('../assets/svg/flag.svg');
   width: 60px;
   height: 60px;
   background-size: cover;
+  background-image: url('../assets/svg/flag.svg');
 
   @include media-three {
     width: 48px;
@@ -112,10 +112,10 @@
 }
 
 .minesweeper-app__game-time-clock {
-  background-image: url('../assets/svg/clock.svg');
   width: 60px;
   height: 60px;
   background-size: cover;
+  background-image: url('../assets/svg/clock.svg');
 
   @include media-three {
     width: 48px;
@@ -139,10 +139,11 @@
 }
 
 .minesweeper-app__game-clicks-icon {
-  background-image: url('../assets/svg/hand-light.svg');
   width: 48px;
   height: 48px;
   background-size: cover;
+  background-image: url('../assets/svg/hand-light.svg');
+
   @include media-three {
     width: 40px;
     height: 40px;
@@ -156,11 +157,11 @@
 .minesweeper-app__new-game {
   width: 80px;
   height: 80px;
+  background-size: cover;
   background-image: url('../assets/svg/new-game-light.svg');
   border-radius: 200px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-size: cover;
 
   @include media-one {
     width: 48px;
@@ -187,11 +188,11 @@
 .minesweeper-app__configs {
   width: 80px;
   height: 80px;
+  background-size: cover;
   background-image: url('../assets/svg/configs-light.svg');
   border-radius: 200px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-size: cover;
 
   @include media-one {
     width: 48px;

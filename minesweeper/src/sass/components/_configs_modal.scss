@@ -18,31 +18,31 @@
   margin-bottom: 22px;
 
   @include media-one {
-    font-size: 24px;
     margin-bottom: 22px;
+    font-size: 24px;
   }
 
   @include media-three {
-    font-size: 20px;
     margin-bottom: 22px;
+    font-size: 20px;
   }
 }
 
 .configs-modal__mines-count-text {
+  margin-right: 6px;
   font-size: 18px;
   line-height: 22px;
-  margin-right: 6px;
 
   @include media-one {
+    margin-right: 4px;
     font-size: 14px;
     line-height: 22px;
-    margin-right: 4px;
   }
 
   @include media-three {
+    margin-right: 2px;
     font-size: 12px;
     line-height: 22px;
-    margin-right: 2px;
   }
 }
 
@@ -76,8 +76,8 @@
   }
 
   .theme-dark & {
-    background: #eaeaf3;
     color: #130f26;
+    background: #eaeaf3;
     border: 3px solid #eaeaf3;
   }
 }
@@ -95,7 +95,7 @@
   column-gap: 24px;
   width: 100%;
   padding: 16px 40px;
-  background-color: $color_blocks_background_light_theme;
+  background-color: #ffc284;
   border-radius: 30px;
 
   @include media-one {
@@ -170,7 +170,7 @@ $checkbox_offset: 2px;
   width: $checkbox_width;
   height: $checkbox_height;
   border-radius: $checkbox_width;
-  background-color: $color_checkbox_first_color;
+  background-color: #653e40;
 
   @include media-one {
     width: calc($checkbox_width * 0.8);
@@ -219,7 +219,7 @@ $checkbox_offset: 2px;
 }
 
 .checkbox__input:checked ~ .checkbox__wrapper {
-  background-color: $color_checkbox_second_color;
+  background-color: #2cc0be;
 }
 
 .checkbox__input:checked ~ .checkbox__wrapper:before {

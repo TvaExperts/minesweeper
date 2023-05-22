@@ -1,14 +1,14 @@
 .frame {
   padding: 10px;
-  background-color: $color_frame_outside_light_theme;
+  background-color:#91181d;
   border-radius: 26px;
 
   .open & {
-    background-color: $color_frame_outside_light_theme_popup;
+    background-color:#653e40;
   }
 
   .theme-dark & {
-    background-color: $color_frame_outside_dark_theme;
+    background-color: #000000;
   }
 
   @include media-one {
@@ -31,11 +31,11 @@
 
 .frame__middle {
   padding: 16px;
-  @extend %background_frame_gradient_light_theme;
+  background: linear-gradient(180deg, #fdb96a 0%, #ff8a00 53.44%, #febca0 100%);
   border-radius: 24px;
 
   .theme-dark & {
-    @extend %background_frame_gradient_dark_theme;
+    background: linear-gradient(180deg, #3b3c47 0%, #7a7b8b 54.48%, #3b3c47 100%);
   }
 
   @include media-one {
@@ -61,8 +61,8 @@
 
 .frame__inside {
   padding: 20px;
-  background: $color_primary_light_theme;
-  border: 3px solid $color_frame_inside_light_theme;
+  background:#fffad0;
+  border: 3px solid  #ecad99;
   border-radius: 20px;
 
   @include media-one {
@@ -74,7 +74,7 @@
   }
 
   .theme-dark & {
-    background: $color_primary_dark_theme;
-    border: 3px solid $color_frame_inside_dark_theme;
+    background: #4c5361;
+    border: 3px solid #747d9d;
   }
 }
