@@ -8,13 +8,15 @@ const BORDER_WIDTHS = {
     borderSize: 51,
   },
   MOBILE: {
-    maxWidth: 650,
+    maxWidth: 670,
     borderSize: 37,
   },
 };
 
-const WATERSHED_COLOR_LIGHT_THEME = '#70A862';
-const WATERSHED_COLOR_DARK_THEME = '#193712';
+const WATERSHED_COLOR = {
+  THEME_LIGHT: '#70A862',
+  THEME_DARK: '#193712',
+};
 
 const DIFFICULTIES = {
   easy: {
@@ -64,20 +66,17 @@ const DEFAULT_APP_CONFIGS = {
     soundVolume: 0.6,
     musicVolume: 0.6,
   },
-
   game: {
     state: GAME_STATE.WAITING_START,
   },
 };
 
-// eslint-disable-next-line max-len
 export {
   DIFFICULTIES,
   GAME_STATE,
   APP_THEME,
   BORDER_WIDTHS,
-  WATERSHED_COLOR_LIGHT_THEME,
-  WATERSHED_COLOR_DARK_THEME,
+  WATERSHED_COLOR,
   MODAL_NAMES,
   DEFAULT_APP_CONFIGS,
 };

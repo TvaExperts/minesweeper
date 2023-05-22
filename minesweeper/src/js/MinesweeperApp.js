@@ -1,21 +1,34 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable max-len */
 import AudioPlayer from './AudioPlayer';
+import Builder from './Builder';
 import Painter from './Painter';
 import Minesweeper from './Minesweeper';
-import { GAME_STATE, DIFFICULTIES, MODAL_NAMES, BORDER_WIDTHS } from './consts';
 import Rating from './Rating';
-import Builder from './Builder';
+import {
+  GAME_STATE,
+  DIFFICULTIES,
+  MODAL_NAMES,
+  BORDER_WIDTHS,
+} from './consts';
 
 class MinesweeperApp {
   constructor(appConfigs) {
     this.loadConfigsApp(appConfigs);
     this.audioPlayer = new AudioPlayer(this.musicVolume, this.soundVolume);
-    this.builder = new Builder(this.generateListOfCallbacks());
-    this.builder.buildPage(this.difficulty, this.minesCount, this.theme, this.soundVolume, this.musicVolume);
-    this.addListenersOnPage();
-    this.painter = new Painter();
-    this.minesweeper = new Minesweeper(this, this.painter, this.audioPlayer, this.handleLose, this.handleWin);
+    this.builder = new Builder(this.generateListOfCallbacksForBuilder());
+    this.builder.buildPage(
+      this.difficulty,
+      this.minesCount,
+      this.theme,
+      this.soundVolume,
+      this.musicVolume,
+    );
+    this.painter = new Painter(this.builder.canvas);
+    this.minesweeper = new Minesweeper(
+      this.painter,
+      this.audioPlayer,
+      this.handleLose,
+      this.handleWin,
+    );
     this.rating = new Rating();
     this.startTimers();
   }
@@ -28,25 +41,26 @@ class MinesweeperApp {
     this.soundVolume = appConfigs.soundVolume;
   };
 
-  addListenersOnPage = () => {
-    window.addEventListener('resize', this.checkResize);
-  };
-
   loadRating = (rating) => {
     if (rating) this.rating.list = rating;
   };
 
-  generateListOfCallbacks = () => {
+  loadSVGData = async () => {
+    await this.painter.loadAllSVGImages();
+  };
+
+  generateListOfCallbacksForBuilder = () => {
     const listOfCallbacks = {
       handleChengeMinesCount: this.handleChengeMinesCount,
       toggleAppTheme: this.toggleAppTheme,
-      changeDifficultyClickHandler: this.changeDifficultyClickHandler,
+      changeDifficulty: this.changeDifficulty,
       initNewGame: this.initNewGame,
       getRating: this.getRating,
       increaseMusicVolume: this.audioPlayer.increaseMusicVolume,
       decreaseMusicVolume: this.audioPlayer.decreaseMusicVolume,
       increaseSoundVolume: this.audioPlayer.increaseSoundVolume,
       decreaseSoundVolume: this.audioPlayer.decreaseSoundVolume,
+      checkResize: this.checkResize,
     };
     return listOfCallbacks;
   };
@@ -64,7 +78,7 @@ class MinesweeperApp {
     this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
   };
 
-  changeDifficultyClickHandler = (newDifficulty) => {
+  changeDifficulty = (newDifficulty) => {
     this.difficulty = newDifficulty;
     this.minesCount = DIFFICULTIES[this.difficulty].mines;
     this.initNewGame();
@@ -78,26 +92,38 @@ class MinesweeperApp {
     gameResult.clicksCount = this.minesweeper.clicksCount;
     const place = this.rating.push(gameResult);
     if (place < 0) {
-      Builder.updateEndModal(MODAL_NAMES.WIN, gameResult.time, gameResult.clicksCount, this.rating.getBestTime());
+      Builder.updateEndModal(
+        MODAL_NAMES.WIN,
+        gameResult.time,
+        gameResult.clicksCount,
+        this.rating.getBestTime(),
+      );
       Builder.showModalById(MODAL_NAMES.WIN);
     } else {
-      Builder.updateEndModal(MODAL_NAMES.WIN_PLACE, gameResult.time, gameResult.clicksCount, this.rating.getBestTime(), place);
+      Builder.updateEndModal(
+        MODAL_NAMES.WIN_PLACE,
+        gameResult.time,
+        gameResult.clicksCount,
+        this.rating.getBestTime(),
+        place,
+      );
       Builder.showModalById(MODAL_NAMES.WIN_PLACE);
     }
     this.audioPlayer.sounds.win.play();
   };
 
   handleLose = () => {
-    Builder.updateEndModal(MODAL_NAMES.LOSE, this.timerPlayTime, this.minesweeper.clicksCount, this.rating.getBestTime());
+    Builder.updateEndModal(
+      MODAL_NAMES.LOSE,
+      this.timerPlayTime,
+      this.minesweeper.clicksCount,
+      this.rating.getBestTime(),
+    );
     Builder.showModalById(MODAL_NAMES.LOSE);
     this.audioPlayer.sounds.lose.play();
   };
 
-  loadData = async () => {
-    await this.painter.loadAllSVGImages();
-  };
-
-  calculateCellSize = (columns) => {
+  static calculateCellSize = (columns) => {
     let cellSize = 100;
     let calcCellSize = null;
     let windowWidth = document.documentElement.clientWidth;
@@ -111,7 +137,7 @@ class MinesweeperApp {
   };
 
   checkResize = () => {
-    const cellSize = this.calculateCellSize(this.minesweeper.columns);
+    const cellSize = MinesweeperApp.calculateCellSize(this.minesweeper.columns);
     if (cellSize === this.minesweeper.cellSize) return;
     this.painter.initGrid(
       cellSize,
@@ -119,7 +145,7 @@ class MinesweeperApp {
       this.minesweeper.rows * cellSize,
       this.minesweeper.rows,
       this.minesweeper.columns,
-      this.theme
+      this.theme,
     );
     this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
   };
@@ -135,7 +161,7 @@ class MinesweeperApp {
     }
     const { rows, columns } = DIFFICULTIES[this.difficulty];
     this.minesweeper.initGame(rows, columns, this.minesCount, grid, clicksCount);
-    const cellSize = this.calculateCellSize(columns);
+    const cellSize = MinesweeperApp.calculateCellSize(columns);
     this.painter.initGrid(cellSize, columns * cellSize, rows * cellSize, rows, columns, this.theme);
     this.painter.drawGrid(this.minesweeper.grid, this.minesweeper.state);
     this.timerPlayTime = time;

@@ -11,4 +11,9 @@ const createElement = (tag, classes, innerText = '') => {
   return element;
 };
 
-export { getRandomNum, showTimeInMinutes, preventDefault, createElement };
+export {
+  getRandomNum,
+  showTimeInMinutes,
+  preventDefault,
+  createElement,
+};

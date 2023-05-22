@@ -1,17 +1,9 @@
-/* eslint-disable no-await-in-loop */
-/* eslint-disable arrow-body-style */
-/* eslint-disable max-len */
-
-import {
-  WATERSHED_COLOR_LIGHT_THEME,
-  WATERSHED_COLOR_DARK_THEME,
-  GAME_STATE,
-} from './consts';
+import { WATERSHED_COLOR, GAME_STATE } from './consts';
 import SVG_IMAGES from './SVGs';
 
 class Painter {
-  constructor() {
-    this.canvas = document.querySelector('.minesweeper-app__minesweeper');
+  constructor(elementCanvas) {
+    this.canvas = elementCanvas;
     this.ctx = this.canvas.getContext('2d');
   }
 
@@ -26,16 +18,14 @@ class Painter {
     await Promise.all(promises);
   };
 
-  loadSVGImage = (theme, key) => {
-    return new Promise((resolve) => {
-      const img = document.createElement('img');
-      img.src = this.images[theme][key];
-      img.addEventListener('load', () => {
-        this.images[theme][key] = img;
-        resolve();
-      });
+  loadSVGImage = (theme, key) => new Promise((resolve) => {
+    const img = document.createElement('img');
+    img.src = this.images[theme][key];
+    img.addEventListener('load', () => {
+      this.images[theme][key] = img;
+      resolve();
     });
-  };
+  });
 
   initGrid = (cellSize, width, height, rows, colums, theme) => {
     this.width = width;
@@ -50,9 +40,10 @@ class Painter {
   };
 
   selectBorderSize = () => {
-    let borderSize = 4;
-    if (this.cellSize < 30) borderSize = 3;
-    if (this.cellSize > 20) borderSize = 2;
+    let borderSize = 5;
+    if (this.cellSize < 50) borderSize = 4;
+    if (this.cellSize < 40) borderSize = 3;
+    if (this.cellSize < 30) borderSize = 2;
     return borderSize;
   };
 
@@ -63,67 +54,14 @@ class Painter {
     return coordinates;
   };
 
-  drawCellBackground = (cell) => {
-    if ((cell.row + cell.column) % 2 === 0) {
-      if (cell.isOpened) {
-        this.ctx.drawImage(
-          this.images[this.theme].CELL_OPENED_LIGHT,
-          cell.column * this.cellSize,
-          cell.row * this.cellSize,
-          this.cellSize,
-          this.cellSize
-        );
-      } else {
-        this.ctx.drawImage(
-          this.images[this.theme].CELL_HIDEN_LIGHT,
-          cell.column * this.cellSize,
-          cell.row * this.cellSize,
-          this.cellSize,
-          this.cellSize
-        );
-      }
-    } else if (cell.isOpened) {
-      this.ctx.drawImage(
-        this.images[this.theme].CELL_OPENED_DARK,
-        cell.column * this.cellSize,
-        cell.row * this.cellSize,
-        this.cellSize,
-        this.cellSize
-      );
-    } else {
-      this.ctx.drawImage(
-        this.images[this.theme].CELL_HIDEN_DARK,
-        cell.column * this.cellSize,
-        cell.row * this.cellSize,
-        this.cellSize,
-        this.cellSize
-      );
-    }
-  };
-  /*
-  drawMines = (grid, clickedRow = -1, clickedColumn = -1) => {
-    for (let row = 0; row < this.rows; row += 1) {
-      for (let column = 0; column < this.columns; column += 1) {
-        if (grid[row][column].hasMine) {
-          if (!grid[row][column].hasFlag) {
-            if (row === clickedRow && clickedColumn === column) {
-              this.ctx.drawImage(this.images[this.theme].CELL_RED, column * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize);
-            }
-            this.ctx.drawImage(this.images[this.theme].MINE, column * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize);
-          }
-        }
-      }
-    }
-  };
-*/
-
   drawGrid = (grid, gameState = GAME_STATE.ACTIVE) => {
     for (let row = 0; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         this.drawCellBackground(grid[row][column]);
         if (grid[row][column].hasFlag) this.drawFlag(grid[row][column]);
-        if (grid[row][column].isOpened && grid[row][column].danger)
+        if (grid[row][column].isOpened && grid[row][column].danger) {
           this.drawDigit(grid[row][column]);
+        }
         if (gameState !== GAME_STATE.ACTIVE) {
           if (grid[row][column].hasMine) {
             if (!grid[row][column].hasFlag) {
@@ -133,7 +71,7 @@ class Painter {
                   column * this.cellSize,
                   row * this.cellSize,
                   this.cellSize,
-                  this.cellSize
+                  this.cellSize,
                 );
               }
               this.ctx.drawImage(
@@ -141,7 +79,7 @@ class Painter {
                 column * this.cellSize,
                 row * this.cellSize,
                 this.cellSize,
-                this.cellSize
+                this.cellSize,
               );
             }
           }
@@ -151,13 +89,40 @@ class Painter {
     this.drawBorderBetweenOpenAndHidenCells(grid);
   };
 
+  drawCellBackground = (cell) => {
+    let bgImage;
+    if ((cell.row + cell.column) % 2 === 0) {
+      if (cell.isOpened) {
+        bgImage = this.images[this.theme].CELL_OPENED_LIGHT;
+      } else {
+        bgImage = this.images[this.theme].CELL_HIDEN_LIGHT;
+      }
+    } else if (cell.isOpened) {
+      bgImage = this.images[this.theme].CELL_OPENED_DARK;
+    } else {
+      bgImage = this.images[this.theme].CELL_HIDEN_DARK;
+    }
+    this.ctx.drawImage(
+      bgImage,
+      cell.column * this.cellSize,
+      cell.row * this.cellSize,
+      this.cellSize,
+      this.cellSize,
+    );
+  };
+
+  fillRect = (color, x, y, width, height) => {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x, y, width, height);
+  };
+
   drawFlag = (cell) => {
     this.ctx.drawImage(
       this.images[this.theme].FLAG,
       cell.column * this.cellSize,
       cell.row * this.cellSize,
       this.cellSize,
-      this.cellSize
+      this.cellSize,
     );
   };
 
@@ -167,33 +132,29 @@ class Painter {
       cell.column * this.cellSize,
       cell.row * this.cellSize,
       this.cellSize,
-      this.cellSize
+      this.cellSize,
     );
   };
 
   drawBorderBetweenOpenAndHidenCells = (grid) => {
-    const watershedColor =
-      this.theme === 'THEME_LIGHT'
-        ? WATERSHED_COLOR_LIGHT_THEME
-        : WATERSHED_COLOR_DARK_THEME;
     for (let row = 1; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         if (grid[row][column].isOpened && !grid[row - 1][column].isOpened) {
           this.fillRect(
-            watershedColor,
+            WATERSHED_COLOR[this.theme],
             column * this.cellSize,
             row * this.cellSize,
             this.cellSize,
-            3
+            this.borderSize,
           );
         }
         if (!grid[row][column].isOpened && grid[row - 1][column].isOpened) {
           this.fillRect(
-            watershedColor,
+            WATERSHED_COLOR[this.theme],
             column * this.cellSize,
-            row * this.cellSize - 3,
+            row * this.cellSize - this.borderSize,
             this.cellSize,
-            3
+            this.borderSize,
           );
         }
       }
@@ -202,53 +163,81 @@ class Painter {
       for (let column = 1; column < this.columns; column += 1) {
         if (grid[row][column].isOpened && !grid[row][column - 1].isOpened) {
           this.fillRect(
-            watershedColor,
+            WATERSHED_COLOR[this.theme],
             column * this.cellSize,
             row * this.cellSize,
-            3,
-            this.cellSize
+            this.borderSize,
+            this.cellSize,
           );
         }
         if (!grid[row][column].isOpened && grid[row][column - 1].isOpened) {
           this.fillRect(
-            watershedColor,
-            column * this.cellSize - 3,
+            WATERSHED_COLOR[this.theme],
+            column * this.cellSize - this.borderSize,
             row * this.cellSize,
-            3,
-            this.cellSize
+            this.borderSize,
+            this.cellSize,
           );
         }
       }
     }
-    this.drawSquaresInBorder(grid, watershedColor);
+    this.drawSquaresInBorder(grid);
   };
 
-  isCellInGrid = (row, column) =>
-    row >= 0 && column >= 0 && row < this.rows && column < this.columns;
+  isCellInGrid = (row, column) => row >= 0
+  && column >= 0
+  && row < this.rows
+  && column < this.columns;
 
-  isSquareInGrid = (row, column) =>
-    this.isCellInGrid(row, column) &&
-    this.isCellInGrid(row - 1, column) &&
-    this.isCellInGrid(row - 1, column + 1) &&
-    this.isCellInGrid(row, column + 1);
+  isSquareInGrid = (row, column) => this.isCellInGrid(row, column)
+  && this.isCellInGrid(row - 1, column)
+  && this.isCellInGrid(row - 1, column + 1)
+  && this.isCellInGrid(row, column + 1);
 
-  isSquareWithPattern = (grid, row, column, lbCell, ltCell, rtCell, rbCell) =>
-    grid[row][column].isOpened === lbCell &&
-    grid[row - 1][column].isOpened === ltCell &&
-    grid[row - 1][column + 1].isOpened === rtCell &&
-    grid[row][column + 1].isOpened === rbCell;
+  static isSquareWithPattern = (grid, row, column, lbCell, ltCell, rtCell, rbCell) => (
+    grid[row][column].isOpened === lbCell
+    && grid[row - 1][column].isOpened === ltCell
+    && grid[row - 1][column + 1].isOpened === rtCell
+    && grid[row][column + 1].isOpened === rbCell);
 
-  drawSquaresInBorder = (grid, color) => {
+  drawSquaresInBorder = (grid) => {
     for (let row = 1; row < this.rows; row += 1) {
       for (let column = 0; column < this.columns; column += 1) {
         if (this.isSquareInGrid(row, column)) {
-          if (this.isSquareWithPattern(grid, row, column, true, true, true, false)) {
+          if (Painter.isSquareWithPattern(grid, row, column, true, true, true, false)) {
             this.fillRect(
-              color,
+              WATERSHED_COLOR[this.theme],
               (column + 1) * this.cellSize - this.borderSize,
               row * this.cellSize - this.borderSize,
               this.borderSize,
-              this.borderSize
+              this.borderSize,
+            );
+          }
+          if (Painter.isSquareWithPattern(grid, row, column, true, false, true, true)) {
+            this.fillRect(
+              WATERSHED_COLOR[this.theme],
+              (column + 1) * this.cellSize,
+              row * this.cellSize,
+              this.borderSize,
+              this.borderSize,
+            );
+          }
+          if (Painter.isSquareWithPattern(grid, row, column, true, true, false, true)) {
+            this.fillRect(
+              WATERSHED_COLOR[this.theme],
+              (column + 1) * this.cellSize - this.borderSize,
+              row * this.cellSize,
+              this.borderSize,
+              this.borderSize,
+            );
+          }
+          if (Painter.isSquareWithPattern(grid, row, column, false, true, true, true)) {
+            this.fillRect(
+              WATERSHED_COLOR[this.theme],
+              (column + 1) * this.cellSize,
+              row * this.cellSize - this.borderSize,
+              this.borderSize,
+              this.borderSize,
             );
           }
         }

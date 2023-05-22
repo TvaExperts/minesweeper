@@ -1,12 +1,10 @@
-/* eslint-disable max-len */
-
 import Builder from './Builder';
 import Cell from './Cell';
 import { GAME_STATE } from './consts';
 import { getRandomNum, preventDefault } from './utils';
 
 class Minesweeper {
-  constructor(app, painter, audioPlayer, loseHandler, winHandler) {
+  constructor(painter, audioPlayer, loseHandler, winHandler) {
     this.audioPlayer = audioPlayer;
     this.painter = painter;
     this.loseHandler = loseHandler;
@@ -52,10 +50,9 @@ class Minesweeper {
   clickDownPointerCellHandler = (event) => {
     this.audioPlayer.playMusic();
     if (this.state === GAME_STATE.GAME_OVER || this.state === GAME_STATE.WINNER) return;
-    // eslint-disable-next-line max-len
     const { row, column } = this.painter.getCellCoordinatesByClickXY(
       event.offsetX,
-      event.offsetY
+      event.offsetY,
     );
     switch (event.buttons) {
       case 2:
@@ -79,8 +76,6 @@ class Minesweeper {
       this.clickAllHidenNeighbors(row, column);
     }
     this.painter.drawGrid(this.grid, this.state);
-    /* if (this.state !== GAME_STATE.GAME_OVER) this.painter.drawGrid(this.grid);
-    if (this.state === GAME_STATE.WINNER) this.painter.drawMines(this.grid, row, column); */
   };
 
   getMarkedNeighborsCount = (row, column) => {
@@ -97,17 +92,13 @@ class Minesweeper {
   };
 
   clickAllHidenNeighbors = (row, column) => {
-    if (this.isHidenCell(row + 1, column + 1))
-      this.checkStateAfterClick(row + 1, column + 1);
+    if (this.isHidenCell(row + 1, column + 1)) this.checkStateAfterClick(row + 1, column + 1);
     if (this.isHidenCell(row + 1, column)) this.checkStateAfterClick(row + 1, column);
-    if (this.isHidenCell(row + 1, column - 1))
-      this.checkStateAfterClick(row + 1, column - 1);
+    if (this.isHidenCell(row + 1, column - 1)) this.checkStateAfterClick(row + 1, column - 1);
     if (this.isHidenCell(row, column - 1)) this.checkStateAfterClick(row, column - 1);
-    if (this.isHidenCell(row - 1, column - 1))
-      this.checkStateAfterClick(row - 1, column - 1);
+    if (this.isHidenCell(row - 1, column - 1)) this.checkStateAfterClick(row - 1, column - 1);
     if (this.isHidenCell(row - 1, column)) this.checkStateAfterClick(row - 1, column);
-    if (this.isHidenCell(row - 1, column + 1))
-      this.checkStateAfterClick(row - 1, column + 1);
+    if (this.isHidenCell(row - 1, column + 1)) this.checkStateAfterClick(row - 1, column + 1);
     if (this.isHidenCell(row, column + 1)) this.checkStateAfterClick(row, column + 1);
   };
 
@@ -171,17 +162,16 @@ class Minesweeper {
     this.painter.drawGrid(this.grid);
   };
 
-  isCellInGrid = (row, column) =>
-    row >= 0 && column >= 0 && row < this.rows && column < this.columns;
+  isCellInGrid = (row, column) => row >= 0
+  && column >= 0
+  && row < this.rows
+  && column < this.columns;
 
-  isMineInCell = (row, column) =>
-    this.isCellInGrid(row, column) && this.grid[row][column].hasMine;
+  isMineInCell = (row, column) => this.isCellInGrid(row, column) && this.grid[row][column].hasMine;
 
-  isMarkedCell = (row, column) =>
-    this.isCellInGrid(row, column) && this.grid[row][column].hasFlag;
+  isMarkedCell = (row, column) => this.isCellInGrid(row, column) && this.grid[row][column].hasFlag;
 
-  isHidenCell = (row, column) =>
-    this.isCellInGrid(row, column) && !this.grid[row][column].isOpened;
+  isHidenCell = (row, column) => this.isCellInGrid(row, column) && !this.grid[row][column].isOpened;
 
   countDangerInCell(row, column) {
     let danger = 0;

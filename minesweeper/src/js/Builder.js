@@ -21,13 +21,14 @@ class Builder {
     document.body.append(main);
     if (theme === APP_THEME.THEME_DARK) document.body.classList.add('theme-dark');
     document.addEventListener('click', Builder.clickModalOverlay);
+    window.addEventListener('resize', this.appCallbacks.checkResize);
   };
 
   buildApp = () => {
     const app = createElement('div', ['minesweeper-app']);
     const header = this.buildAppHeader();
-    const canvas = createElement('canvas', ['minesweeper-app__minesweeper']);
-    const frame = Builder.buildFrame([header, canvas]);
+    this.canvas = createElement('canvas', ['minesweeper-app__minesweeper']);
+    const frame = Builder.buildFrame([header, this.canvas]);
     app.append(frame);
     return app;
   };
@@ -371,7 +372,7 @@ class Builder {
     clickedButton.classList.add('button--active');
     const newDifficulty = clickedButton.id.slice(11);
     document.querySelector('.configs-modal__mines-count-input').value = DIFFICULTIES[newDifficulty].mines;
-    this.appCallbacks.changeDifficultyClickHandler(newDifficulty);
+    this.appCallbacks.changeDifficulty(newDifficulty);
   };
 
   static deactivateAllDifficulstButtons = () => {
